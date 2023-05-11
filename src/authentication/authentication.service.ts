@@ -42,7 +42,7 @@ export class AuthenticationService {
       expiresIn: '1d'
     })
 
-    return { id: user.id, token, isEmailVerified: user.isEmailVerified }
+    return { user, token }
   }
   async register({ email, password }: any) {
     const passwordHash = this.createInputHash(password)
