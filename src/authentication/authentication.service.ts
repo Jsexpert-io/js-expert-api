@@ -22,7 +22,7 @@ export class AuthenticationService {
   constructor(private userService: DeveloperService) { }
   async login({ email, password }: any) {
     const passwordHash = this.createInputHash(password)
-
+    email = email.toLowerCase()
     const user = await this.userService.findOneBy({
       email, password: passwordHash
     })
@@ -46,7 +46,7 @@ export class AuthenticationService {
   }
   async register({ email, password }: any) {
     const passwordHash = this.createInputHash(password)
-
+    email = email.toLowerCase()
 
     const isDuplicateUser = await this.userService.checkUserByEmail(email)
     console.log(isDuplicateUser);
