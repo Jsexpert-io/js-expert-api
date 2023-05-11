@@ -1,0 +1,42 @@
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { GoogleStrategy } from './auth/google.strategy';
+import { AuthenticationModule } from './authentication/authentication.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { join } from 'path';
+
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+
+import { DeveloperModule } from './developer/developer.module';
+import { Developer } from './developer/entities/developer.entity';
+const mongoUrl =`mongodb+srv://doadmin:062vzJf58yO14dV7@smartml-serviceapp-d50808dc.mongo.ondigitalocean.com/jsDB?tls=true&authSource=admin`
+@Module({
+  imports: [
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile:true,
+      sortSchema: true,
+    }),
+   
+    TypeOrmModule.forRoot({
+      type:'mongodb',
+      url:mongoUrl,
+      synchronize:true,
+      useUnifiedTopology:true,
+      database:'jsDB',
+      entities:[
+        Developer
+      ]
+    }),
+    AuthenticationModule,
+
+    DeveloperModule,
+    ],
+  controllers: [AppController],
+  providers: [AppService,GoogleStrategy],
+})
+export class AppModule {}
