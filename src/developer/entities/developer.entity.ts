@@ -40,7 +40,13 @@ export class Developer {
   @Prop({ type: mongoose.Schema.Types.Mixed })
   resume: any;
 
+  @Prop()
+  username?: string;
+  @Prop()
+  bio?: string;
+  @Prop({ type: mongoose.Schema.Types.Mixed })
 
+  coverPicture?: any;
 }
 
 

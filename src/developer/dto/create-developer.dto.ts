@@ -22,5 +22,8 @@ export class CreateDeveloperDto {
     certificates?: any[];
     projects?: any[];
     resume?: any;
+    username?: string;
+    bio?: string;
+    coverPicture?: any;
 
 }
