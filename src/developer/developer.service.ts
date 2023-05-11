@@ -12,6 +12,9 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class DeveloperService {
+  verifyUserName(username: string) {
+    return this.developerRepository.exists({ username })
+  }
   constructor(
     @InjectModel('developer')
     private developerRepository: Model<DeveloperDocument>,

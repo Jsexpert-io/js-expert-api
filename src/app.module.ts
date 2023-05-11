@@ -13,6 +13,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { DeveloperModule } from './developer/developer.module';
 import { Developer } from './developer/entities/developer.entity';
+import { MediaModule } from './media/media.module';
 const mongoUrl =`mongodb+srv://doadmin:062vzJf58yO14dV7@smartml-serviceapp-d50808dc.mongo.ondigitalocean.com/jsDB?tls=true&authSource=admin`
 @Module({
   imports: [
@@ -22,6 +23,8 @@ MongooseModule.forRoot(mongoUrl),
     AuthenticationModule,
 
     DeveloperModule,
+
+    MediaModule,
     ],
   controllers: [AppController],
   providers: [AppService,GoogleStrategy],

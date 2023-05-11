@@ -25,7 +25,7 @@ export class Developer {
   isEmailVerified: boolean;
 
   @Prop({ type: mongoose.Schema.Types.Mixed })
-  picture: any;
+  profilePicture: any;
 
 
   @Prop({ type: mongoose.Schema.Types.Mixed })

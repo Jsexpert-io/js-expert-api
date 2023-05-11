@@ -16,7 +16,7 @@ export class CreateDeveloperDto {
     @IsString()
     name?: string;
 
-    picture?: any;
+    profilePicture?: any;
 
     links?: string[];
     certificates?: any[];

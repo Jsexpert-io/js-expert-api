@@ -21,6 +21,10 @@ export class DeveloperController {
   findOne(@Param('id') id: string) {
     return this.developerService.findOne(id);
   }
+  @Get('verifyUserName/:username')
+  verifyUserName(@Param('id') id: string) {
+    return this.developerService.findOne(id);
+  }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateDeveloperDto: UpdateDeveloperDto) {
