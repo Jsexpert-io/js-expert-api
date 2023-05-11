@@ -18,14 +18,7 @@ const mongoUrl =`mongodb+srv://doadmin:062vzJf58yO14dV7@smartml-serviceapp-d5080
   imports: [
 
    
-    TypeOrmModule.forRoot({
-      type:'mongodb',
-      url:mongoUrl,
-      synchronize:true,
-      useUnifiedTopology:true,
-      database:'jsDB',
-     
-    }),
+MongooseModule.forRoot(mongoUrl),
     AuthenticationModule,
 
     DeveloperModule,

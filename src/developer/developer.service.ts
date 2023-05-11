@@ -1,20 +1,23 @@
 import { Injectable } from '@nestjs/common';
 
 import { InjectRepository } from '@nestjs/typeorm';
-import { Developer } from './entities/developer.entity';
-import { Repository } from 'typeorm';
+import { Developer, DeveloperDocument } from './entities/developer.entity';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { v4 } from 'uuid';
 import { CreateDeveloperDto } from './dto/create-developer.dto';
 import { UpdateDeveloperDto } from './dto/update-developer.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 
 @Injectable()
 export class DeveloperService {
-  constructor(@InjectRepository(Developer) private developerRepository: Repository<Developer>) {
-
-  }
+  constructor(
+    @InjectModel('developer')
+    private developerRepository: Model<DeveloperDocument>,
+  ) { }
   create(createDeveloperInput: CreateDeveloperDto) {
-    return this.developerRepository.save({ ...createDeveloperInput, id: v4() })
+    return this.developerRepository.create({ ...createDeveloperInput, id: v4() })
   }
 
   findAll() {
@@ -23,19 +26,30 @@ export class DeveloperService {
   }
 
   findOne(id: string) {
-    return this.developerRepository.findBy({ id })
+    return this.developerRepository.findById(id)
 
   }
   findByEmail(email: string) {
-    return this.developerRepository.findOneBy({ email })
+    return this.developerRepository.find({ email })
+
+  }
+
+  findOneBy(filter: FindOptionsWhere<Developer> | FindOptionsWhere<Developer>[]) {
+    return this.developerRepository.findOne({ ...filter }, {
+
+    }).select(['-password', '-_id', '-__v'])
+
+  }
+  checkUserByEmail(email: string) {
+    return this.developerRepository.exists({ email })
 
   }
   update(id: string, updateDeveloperInput: UpdateDeveloperDto) {
-    return this.developerRepository.update({ id }, updateDeveloperInput)
+    return this.developerRepository.updateOne({ id }, updateDeveloperInput)
   }
 
   remove(id: string) {
-    return this.developerRepository.delete({ id })
+    return this.developerRepository.deleteOne({ id })
 
   }
 }

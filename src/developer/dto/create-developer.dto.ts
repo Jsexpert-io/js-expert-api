@@ -1,20 +1,26 @@
 
-import { IsString } from 'class-validator';
+import { IsBoolean, IsString } from 'class-validator';
 
 export class CreateDeveloperDto {
 
-  @IsString()
-  email: string;
+    @IsString()
+    email: string;
 
-  
-  @IsString()
-  firstName: string;
+    @IsString()
+    password: string;
 
-  
-  @IsString()
-  lastName: string;
 
-  
-  @IsString()
-  picture: string;
+    isEmailVerified: boolean = false;
+
+
+    @IsString()
+    name?: string;
+
+    picture?: any;
+
+    links?: string[];
+    certificates?: any[];
+    projects?: any[];
+    resume?: any;
+
 }

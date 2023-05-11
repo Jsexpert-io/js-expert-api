@@ -1,23 +1,51 @@
-
-import { Column, Entity, ObjectIdColumn, PrimaryColumn } from 'typeorm';
-
-@Entity()
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
+import * as mongoose from 'mongoose';
+@Schema({ timestamps: true })
 export class Developer {
-  @ObjectIdColumn()
-  _id: string;
 
-  @PrimaryColumn()
+  @Prop()
   id: string;
 
-  @Column()
+  @Prop()
   email: string;
 
-  @Column()
-  firstName: string;
+  @Prop()
+  name: string;
 
-  @Column()
-  lastName: string;
+  @Prop()
+  password: string;
 
-  @Column()
-  picture: string;
+  @Prop()
+  emailToken: string;
+
+  // json object
+
+  @Prop()
+  isEmailVerified: boolean;
+
+  @Prop({ type: mongoose.Schema.Types.Mixed })
+  picture: any;
+
+
+  @Prop({ type: mongoose.Schema.Types.Mixed })
+  links: string[];
+
+  @Prop({ type: mongoose.Schema.Types.Mixed })
+  certificates: any[];
+
+  @Prop({ type: mongoose.Schema.Types.Mixed })
+  projects: any[];
+
+  @Prop({ type: mongoose.Schema.Types.Mixed })
+  resume: any;
+
+
 }
+
+
+export type DeveloperDocument = Developer & Document;
+
+
+
+export const DeveloperSchema = SchemaFactory.createForClass(Developer);
