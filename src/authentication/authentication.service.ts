@@ -60,8 +60,8 @@ export class AuthenticationService {
     const emailToken = `${user.id}-${user._id}-${Date.now()}`;
     const emailTokenHash = this.createInputHash(emailToken)
     await this.userService.update(user.id, { emailToken: emailTokenHash })
-    await sendEmail(email, 'Verify your email', 
-    `<a href="${process.env.PUBLIC_API_URL}/authentication/verifyEmail?token=${emailTokenHash}">Click here to verify your email</a>`)
+    await sendEmail(email, 'Verify your email',
+      `<a href="${process.env.PUBLIC_API_URL}/authentication/verifyEmail?token=${emailTokenHash}">Click here to verify your email</a>`)
     return { id: user.id, isEmailVerified: user.isEmailVerified }
   }
 

@@ -16,14 +16,18 @@ export class DeveloperController {
   findAll() {
     return this.developerService.findAll();
   }
+  @Get('checkUserName/:username')
+  checkUserName(@Param('username') username: string) {
+    return this.developerService.checkUserName(username);
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.developerService.findOne(id);
   }
   @Get('verifyUserName/:username')
-  verifyUserName(@Param('id') id: string) {
-    return this.developerService.findOne(id);
+  verifyUserName(@Param('username') username: string) {
+    return this.developerService.verifyUserName(username);
   }
 
   @Patch(':id')

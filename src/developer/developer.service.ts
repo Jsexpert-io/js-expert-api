@@ -32,6 +32,10 @@ export class DeveloperService {
     return this.developerRepository.findById(id)
 
   }
+  checkUserName(username: string) {
+    return this.developerRepository.exists({ username })
+
+  }
   findByEmail(email: string) {
     return this.developerRepository.find({ email })
 
@@ -47,7 +51,22 @@ export class DeveloperService {
     return this.developerRepository.exists({ email })
 
   }
-  update(id: string, updateDeveloperInput: UpdateDeveloperDto) {
+ async update(id: string, updateDeveloperInput: UpdateDeveloperDto) {
+  if(updateDeveloperInput.username){
+    const existingUserName = await  this.developerRepository.exists({
+      username: updateDeveloperInput.username,
+      email:{
+        $ne:updateDeveloperInput.email
+      }
+    })
+    console.log('====================================');
+    console.log(existingUserName);
+    console.log('====================================');
+    if(existingUserName){
+      throw new Error('Username already exists')
+    }
+  }
+  
     return this.developerRepository.updateOne({ id }, updateDeveloperInput)
   }
 
