@@ -6,7 +6,12 @@ import { UpdateDeveloperDto } from './dto/update-developer.dto';
 @Controller('developer')
 export class DeveloperController {
   constructor(private readonly developerService: DeveloperService) { }
-
+  @Get('developerProfileByUsername/:username')
+  developerProfileByUsername(@Param('username') username: string) {
+    console.log(username);
+    
+    return this.developerService.getProfile(username )
+  }
   @Post()
   create(@Body() createDeveloperDto: CreateDeveloperDto) {
     return this.developerService.create(createDeveloperDto);
@@ -20,7 +25,7 @@ export class DeveloperController {
   checkUserName(@Param('username') username: string) {
     return this.developerService.checkUserName(username);
   }
-
+ 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.developerService.findOne(id);
@@ -39,4 +44,5 @@ export class DeveloperController {
   remove(@Param('id') id: string) {
     return this.developerService.remove(id);
   }
+
 }

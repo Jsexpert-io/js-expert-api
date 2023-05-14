@@ -47,6 +47,14 @@ export class DeveloperService {
     }).select(['-password', '-_id', '-__v'])
 
   }
+  getProfile(username: string) {
+    return this.developerRepository.findOne({ username }).select(
+      ['id', 'username',
+        'name', 'bio', 'links',
+        'profilePicture.url', 'coverPicture.url', 'bio', 'email', 'name', 'skills', 'socials', 'createdAt', 'updatedAt']
+    )
+
+  }
   checkUserByEmail(email: string) {
     return this.developerRepository.exists({ email })
 
