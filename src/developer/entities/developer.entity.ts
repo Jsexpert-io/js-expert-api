@@ -45,13 +45,15 @@ export class Developer {
   username?: string;
   @Prop()
   bio?: string;
-  @Prop({ type: mongoose.Schema.Types.Mixed })
+
 
   @Prop({
     ref: 'skill',
     type: [mongoose.Schema.Types.ObjectId],
   })
   skills: Skill[];
+  
+  @Prop({ type: mongoose.Schema.Types.Mixed })
   coverPicture?: any;
 }
 

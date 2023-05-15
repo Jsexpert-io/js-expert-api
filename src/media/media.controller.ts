@@ -57,11 +57,14 @@ export class MediaController {
       .join('-');
 
       try {
+     
         await removeImages([{
-          key: fileName + '.webp',
+          key: req.query.oldKey,
         }]);
       } catch (error) {
-        
+        console.log('====================================');
+        console.log(error);
+        console.log('====================================');
       }
 
     try {

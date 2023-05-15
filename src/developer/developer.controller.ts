@@ -37,6 +37,7 @@ export class DeveloperController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateDeveloperDto: UpdateDeveloperDto) {
+
     return this.developerService.update(id, updateDeveloperDto);
   }
 

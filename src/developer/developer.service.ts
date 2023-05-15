@@ -65,7 +65,7 @@ export class DeveloperService {
 
   }
   async update(id: string, updateDeveloperInput: UpdateDeveloperDto) {
-    const session = await this.connection.startSession();
+    
     if (updateDeveloperInput.username) {
       const existingUserName = await this.developerRepository.exists({
         username: updateDeveloperInput.username,
@@ -79,25 +79,17 @@ export class DeveloperService {
       }
     }
 
-
-    await session.withTransaction(async () => {
-      if (updateDeveloperInput.skills?.length) {
-        for (const skill of updateDeveloperInput.skills) {
-          await this.skillService.updatedeveloper(skill, id).session(session);
-        }
+console.log('====================================');
+console.log(updateDeveloperInput);
+console.log('====================================');
+    if (updateDeveloperInput.skills?.length) {
+      for (const skill of updateDeveloperInput.skills) {
+        await this.skillService.updatedeveloper(skill, id)
       }
+    }
 
-      await this.developerRepository.updateOne({ id }, updateDeveloperInput).session(session)
-    });
+    return this.developerRepository.findOneAndUpdate({ id }, {...updateDeveloperInput})
 
-    session.endSession();
-
-
-
-
-
-
-    return { message: 'Profile updated successfully' };
   }
 
   async remove(id: string) {
