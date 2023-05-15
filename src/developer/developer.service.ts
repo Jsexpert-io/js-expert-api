@@ -57,7 +57,11 @@ export class DeveloperService {
         'name', 'bio', 'links',
         'profilePicture.url', 'coverPicture.url',
         'bio', 'email', 'name', 'skills', 'socials', 'createdAt', 'updatedAt']
-    )
+    ).
+    populate({
+      path: 'skills',
+      foreignField: 'id',
+      select: ['slug', 'name', 'logo.url']})
 
   }
   checkUserByEmail(email: string) {
@@ -79,9 +83,7 @@ export class DeveloperService {
       }
     }
 
-console.log('====================================');
-console.log(updateDeveloperInput);
-console.log('====================================');
+
     if (updateDeveloperInput.skills?.length) {
       for (const skill of updateDeveloperInput.skills) {
         await this.skillService.updatedeveloper(skill, id)

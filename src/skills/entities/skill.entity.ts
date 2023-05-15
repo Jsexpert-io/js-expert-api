@@ -5,7 +5,10 @@ import { Developer } from 'src/developer/entities/developer.entity';
 @Schema({ timestamps: true })
 export class Skill {
 
-    @Prop()
+    @Prop({
+        type: String,
+        unique: true,
+    })
     id: string;
 
     @Prop()
@@ -20,11 +23,13 @@ export class Skill {
     @Prop({ type: mongoose.Schema.Types.Mixed })
     logo: any;
 
+    // set many to many relationship with developer on key id not _id
     @Prop({
         ref: 'developer',
-        type: [mongoose.Schema.Types.ObjectId],
+        type: [String],
     })
-    users: Developer[];
+    developers: string[];
+ 
 
 
 

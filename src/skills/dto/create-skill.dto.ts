@@ -1,6 +1,8 @@
 export class CreateSkillDto {
     name: string;
     value: string;
+    slug: string;
     logo: any;
-    users?: string[];
+    developers: any[];
+
 }

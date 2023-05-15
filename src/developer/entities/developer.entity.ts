@@ -5,7 +5,10 @@ import { Skill } from 'src/skills/entities/skill.entity';
 @Schema({ timestamps: true })
 export class Developer {
 
-  @Prop()
+  @Prop({
+    type: String,
+    unique: true,
+})
   id: string;
 
   @Prop()
@@ -49,10 +52,10 @@ export class Developer {
 
   @Prop({
     ref: 'skill',
-    type: [mongoose.Schema.Types.ObjectId],
+    type: [String],
   })
-  skills: Skill[];
-  
+  skills: string[];
+
   @Prop({ type: mongoose.Schema.Types.Mixed })
   coverPicture?: any;
 }

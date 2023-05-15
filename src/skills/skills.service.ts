@@ -5,10 +5,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { SkillDocument } from './entities/skill.entity';
 import { removeImages, s3 } from 'src/Utils/ImageService';
-
+import { v4 as uuid } from 'uuid';
 @Injectable()
 export class SkillsService {
-  updatedeveloper(skillId: string, userid: string) {
+  async updatedeveloper(skillId: string, userid: string) {
+    const skill = await this.findOne(skillId)
+    if(skill.developers.includes(userid)){
+      return skill
+    }
     return this.skillRepository.updateOne({ id:skillId }, { $push: { developers: userid } })
   }
   constructor(
@@ -16,7 +20,7 @@ export class SkillsService {
     private skillRepository: Model<SkillDocument>,
   ) { }
   create(createSkillDto: CreateSkillDto) {
-    return this.skillRepository.create({ ...createSkillDto })
+    return this.skillRepository.create({ ...createSkillDto,id:uuid(),slug:createSkillDto.name.toLowerCase().replace(/ /g, '-') })
   }
 
   findAll() {
@@ -30,7 +34,8 @@ export class SkillsService {
   findOneBySlug(slug: string) {
     return this.skillRepository.findOne({ slug }).populate({
       path: 'developers',
-      select: ['username', 'name', 'profilePicture']
+      foreignField: 'id',
+      select: ['username', 'name', 'profilePicture.url']
     })
 
   }
