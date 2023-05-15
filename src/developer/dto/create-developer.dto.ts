@@ -18,7 +18,7 @@ export class CreateDeveloperDto {
 
     profilePicture?: any;
 
-    links?: string[];
+    links?: any[];
     certificates?: any[];
     projects?: any[];
     resume?: any;

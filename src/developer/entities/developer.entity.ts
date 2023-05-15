@@ -33,7 +33,7 @@ export class Developer {
 
 
   @Prop({ type: mongoose.Schema.Types.Mixed })
-  links: string[];
+  links: any;
 
   @Prop({ type: mongoose.Schema.Types.Mixed })
   certificates: any[];
