@@ -16,7 +16,10 @@ export class DeveloperController {
   create(@Body() createDeveloperDto: CreateDeveloperDto) {
     return this.developerService.create(createDeveloperDto);
   }
-
+  @Get('getusername')
+  getusername() {
+    return this.developerService.getusername();
+  }
   @Get()
   findAll() {
     return this.developerService.findAll();

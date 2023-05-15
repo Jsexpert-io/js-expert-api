@@ -14,6 +14,9 @@ import { SkillsService } from 'src/skills/skills.service';
 
 @Injectable()
 export class DeveloperService {
+  getusername() {
+    return this.developerRepository.find().select(['username'])
+  }
   verifyUserName(username: string) {
     return this.developerRepository.exists({ username })
   }
