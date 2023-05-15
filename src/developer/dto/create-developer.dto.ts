@@ -25,5 +25,6 @@ export class CreateDeveloperDto {
     username?: string;
     bio?: string;
     coverPicture?: any;
+    skills?: string[];
 
 }

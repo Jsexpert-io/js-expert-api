@@ -17,20 +17,16 @@ export const Sns = new AWS.SNS({
 });
 export const removeImages = async (media: any[]) => {
   try {
-    const keys = media.map((a) =>
-      a
-        .replace('https://anbyservice.s3.ap-south-1.amazonaws.com/', '')
-        .replace('https://anbyservice.s3.amazonaws.com/', ''),
-    );
+   
 
     const params = {
       Bucket: 'anbyservice',
       Delete: {
-        Objects: keys.map((a) => ({ Key: a })),
+        Objects: media.map((a) => ({Key:a.key})),
       },
     };
     const response = await s3.deleteObjects(params).promise();
-    return { ...response, keys };
+    return { ...response, keys:media.map((a) => a.key) };
   } catch (error) {
     console.log('error while deleteing image', error);
   }

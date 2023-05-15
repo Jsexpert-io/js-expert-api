@@ -6,8 +6,10 @@ import { FindOptionsWhere, Repository } from 'typeorm';
 import { v4 } from 'uuid';
 import { CreateDeveloperDto } from './dto/create-developer.dto';
 import { UpdateDeveloperDto } from './dto/update-developer.dto';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { InjectConnection, InjectModel } from '@nestjs/mongoose';
+import mongoose, { Model } from 'mongoose';
+import { removeImages } from 'src/Utils/ImageService';
+import { SkillsService } from 'src/skills/skills.service';
 
 
 @Injectable()
@@ -18,6 +20,8 @@ export class DeveloperService {
   constructor(
     @InjectModel('developer')
     private developerRepository: Model<DeveloperDocument>,
+    @InjectConnection() private readonly connection: mongoose.Connection,
+    private skillService: SkillsService
   ) { }
   create(createDeveloperInput: CreateDeveloperDto) {
     return this.developerRepository.create({ ...createDeveloperInput, id: v4() })
@@ -51,7 +55,8 @@ export class DeveloperService {
     return this.developerRepository.findOne({ username }).select(
       ['id', 'username',
         'name', 'bio', 'links',
-        'profilePicture.url', 'coverPicture.url', 'bio', 'email', 'name', 'skills', 'socials', 'createdAt', 'updatedAt']
+        'profilePicture.url', 'coverPicture.url',
+        'bio', 'email', 'name', 'skills', 'socials', 'createdAt', 'updatedAt']
     )
 
   }
@@ -59,26 +64,45 @@ export class DeveloperService {
     return this.developerRepository.exists({ email })
 
   }
- async update(id: string, updateDeveloperInput: UpdateDeveloperDto) {
-  if(updateDeveloperInput.username){
-    const existingUserName = await  this.developerRepository.exists({
-      username: updateDeveloperInput.username,
-      email:{
-        $ne:updateDeveloperInput.email
+  async update(id: string, updateDeveloperInput: UpdateDeveloperDto) {
+    const session = await this.connection.startSession();
+    if (updateDeveloperInput.username) {
+      const existingUserName = await this.developerRepository.exists({
+        username: updateDeveloperInput.username,
+        email: {
+          $ne: updateDeveloperInput.email
+        }
+      })
+
+      if (existingUserName) {
+        throw new Error('Username already exists')
       }
-    })
-    console.log('====================================');
-    console.log(existingUserName);
-    console.log('====================================');
-    if(existingUserName){
-      throw new Error('Username already exists')
     }
-  }
-  
-    return this.developerRepository.updateOne({ id }, updateDeveloperInput)
+
+
+    await session.withTransaction(async () => {
+      if (updateDeveloperInput.skills?.length) {
+        for (const skill of updateDeveloperInput.skills) {
+          await this.skillService.updatedeveloper(skill, id).session(session);
+        }
+      }
+
+      await this.developerRepository.updateOne({ id }, updateDeveloperInput).session(session)
+    });
+
+    session.endSession();
+
+
+
+
+
+
+    return { message: 'Profile updated successfully' };
   }
 
-  remove(id: string) {
+  async remove(id: string) {
+    const developer = await this.findOne(id)
+    await removeImages([developer.profilePicture, developer.coverPicture])
     return this.developerRepository.deleteOne({ id })
 
   }

@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
+import { Skill } from 'src/skills/entities/skill.entity';
 @Schema({ timestamps: true })
 export class Developer {
 
@@ -46,6 +47,11 @@ export class Developer {
   bio?: string;
   @Prop({ type: mongoose.Schema.Types.Mixed })
 
+  @Prop({
+    ref: 'skill',
+    type: [mongoose.Schema.Types.ObjectId],
+  })
+  skills: Skill[];
   coverPicture?: any;
 }
 
