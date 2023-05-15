@@ -6,7 +6,7 @@ import { Request } from 'express';
 import { createHash } from 'crypto';
 
 import axios from 'axios';
-import { s3 } from '../Utils/ImageService';
+import { removeImages, s3 } from '../Utils/ImageService';
 
 const upload = multer();
 const LOGO_MARGIN_PERCENTAGE = 2;
@@ -38,11 +38,9 @@ export class MediaController {
     randomSalt = randomSalt.toString();
     const hashable = [date, randomSalt].join('');
     const queryPath = req.query.queryPath;
-    let id: any = createHash('md5').update(hashable).digest('hex');
+    let id = req.query.id || createHash('md5').update(hashable).digest('hex');
 
-    if (queryPath) {
-      id = queryPath + '/' + id;
-    }
+    
     const file: any = req.files[0];
     const extention = file.originalname.substring(
       file.originalname.lastIndexOf('.'),
@@ -57,6 +55,14 @@ export class MediaController {
       .toLowerCase()
       .split(' ')
       .join('-');
+
+      try {
+        await removeImages([{
+          key: fileName + '.webp',
+        }]);
+      } catch (error) {
+        
+      }
 
     try {
       const sharpImage = await sharp(file.buffer, {
