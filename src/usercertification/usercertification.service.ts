@@ -9,11 +9,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { UpdateUserCertificationDto } from './dto/update-usercertification.dto';
 import { DeveloperService } from 'src/developer/developer.service';
 
-const populateQuery = [{
-  path: 'skill',
-  select: ['name', 'slug', 'logo']
-}, {
+const populateQuery = [ {
   path: 'developer',
+  foreignField: 'id',
+
   select: ['name', 'username', 'profilePicture.url']
 }]
 @Injectable()
@@ -32,11 +31,12 @@ export class UserCertificationService {
   }
 
   findByUser(id: string) {
-    return this.usercertificateRepository.findOne({ developer: id }).populate(populateQuery)
+    return this.usercertificateRepository.find({ developer: id }).select(['certificate.url', 
+    'id', 'name', 'description', 'issuer'])
   }
 
   findBySkill(id: string) {
-    return this.usercertificateRepository.findOne({ skill: id }).populate(populateQuery)
+    return this.usercertificateRepository.find({ skill: id }).populate(populateQuery)
   }
 
   update(id: string, updateUserCertificationDto: UpdateUserCertificationDto) {

@@ -11,6 +11,7 @@ export class UsercertificationController {
   create(@Body() createUsercertificationDto: CreateUserCertificationDto) {
     return this.usercertificationService.create(createUsercertificationDto);
   }
+
   @Get('findByUser/:id')
   findByUser(@Param('id') id: string) {
     return this.usercertificationService.findByUser(id);
