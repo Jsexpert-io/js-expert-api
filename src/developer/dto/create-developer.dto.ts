@@ -10,7 +10,7 @@ export class CreateDeveloperDto {
     password: string;
 
 
-    isEmailVerified: boolean = false;
+    isEmailVerified?: boolean = false;
 
 
     @IsString()
@@ -19,12 +19,13 @@ export class CreateDeveloperDto {
     profilePicture?: any;
 
     links?: any[];
-    certificates?: any[];
+    userskills?: any[];
+    usercertificates?: any[];
     projects?: any[];
     resume?: any;
     username?: string;
     bio?: string;
     coverPicture?: any;
-    skills?: string[];
+
 
 }

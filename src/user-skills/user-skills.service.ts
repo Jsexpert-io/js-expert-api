@@ -4,30 +4,50 @@ import { removeImages, s3 } from 'src/Utils/ImageService';
 import { v4 as uuid } from 'uuid';
 import { UserSkillDocument } from './entities/user-skill.entity';
 import { Model } from 'mongoose';
-import { CreateUserSkillDto } from './dto/create-user-skill.dto';
+import {  CreateUserSkillDto } from './dto/create-user-skill.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { UpdateUserSkillDto } from './dto/update-user-skill.dto';
+import { DeveloperService } from 'src/developer/developer.service';
 
 const populateQuery = [{
   path: 'skill',
+  foreignField: 'id',
   select:['name','slug','logo']
 },{
   path: 'developer',
+  foreignField: 'id',
   select:['name','username','profilePicture.url']
 }]
 @Injectable()
 export class UserSkillsService {
+ async addUserSkill(addDeveloperUserSkillDtos: CreateUserSkillDto[]) {
+   await  this.userSkillRepository.deleteMany({developer:addDeveloperUserSkillDtos[0].developer})
+   await  this.userSkillRepository.insertMany(addDeveloperUserSkillDtos.map((addDeveloperUserSkillDto)=>({...addDeveloperUserSkillDto,id:uuid()})))
+    return {
+      message:'User Skills Added'
+    }
+  }
 
   constructor(
     @InjectModel('userskill')
     private userSkillRepository: Model<UserSkillDocument>,
+    private developerService:DeveloperService
+
   ) { }
-  create(createUserSkillDto: CreateUserSkillDto) {
-    return this.userSkillRepository.create({ ...createUserSkillDto,id:uuid()})
+  async create(createUserSkillDto: CreateUserSkillDto) {
+
+    const userSkill = await this.userSkillRepository.create({ ...createUserSkillDto,id:uuid()})
+    this.developerService.updateUserSkills(userSkill.developer,userSkill.id)
+    return userSkill
   }
 
   findByUser(id: string) {
-    return this.userSkillRepository.findOne({ developer: id }).populate(populateQuery)
+   
+    return this.userSkillRepository.find({ developer: id }).populate(populateQuery)
+  }
+  findByUserOnly(id: string) {
+   
+    return this.userSkillRepository.find({ developer: id }).select(['skill','developer','id','proficiency'])
   }
 
   findBySkill(id: string) {

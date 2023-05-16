@@ -35,8 +35,7 @@ export class Developer {
   @Prop({ type: mongoose.Schema.Types.Mixed })
   links: any;
 
-  @Prop({ type: mongoose.Schema.Types.Mixed })
-  certificates: any[];
+ 
 
   @Prop({ type: mongoose.Schema.Types.Mixed })
   projects: any[];
@@ -51,10 +50,16 @@ export class Developer {
 
 
   @Prop({
-    ref: 'skill',
+    ref: 'userskill',
     type: [String],
   })
-  skills: string[];
+  userskills: string[];
+
+  @Prop({
+    ref: 'usercertificate',
+    type: [String],
+  })
+  usercertificates: string[];
 
   @Prop({ type: mongoose.Schema.Types.Mixed })
   coverPicture?: any;

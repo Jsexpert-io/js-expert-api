@@ -64,18 +64,41 @@ export class DeveloperService {
         'name', 'bio', 'links',
         'profilePicture.url', 'coverPicture.url',
         'bio', 'email', 'name', 'skills', 'socials', 'createdAt', 'updatedAt']
-    ).
-      populate({
-        path: 'skills',
-        foreignField: 'id',
-        select: ['slug', 'name', 'logo.url']
-      })
+    )
 
   }
   checkUserByEmail(email: string) {
     return this.developerRepository.exists({ email })
 
   }
+ async  updateUserSkills(id: string, userSkill: string) {
+   const developer =  await this.developerRepository.findOne({
+      id
+    })
+    if(developer.userskills.includes(userSkill)){
+      throw new Error('Skill already added')
+    }
+
+    return this.developerRepository.findOneAndUpdate({ id }, {
+      $push: {
+        userSkill
+      }
+    })
+  }
+  async  updateUserCertificate(id: string, userCertificateId: string) {
+    const developer =  await this.developerRepository.findOne({
+       id
+     })
+     if(developer.usercertificates.includes(userCertificateId)){
+       throw new Error('User Certificate already added')
+     }
+ 
+     return this.developerRepository.findOneAndUpdate({ id }, {
+       $push: {
+         usercertificates:userCertificateId
+       }
+     })
+   }
   async update(id: string, updateDeveloperInput: UpdateDeveloperDto) {
 
     if (updateDeveloperInput.username) {
@@ -92,11 +115,6 @@ export class DeveloperService {
     }
 
 
-    if (updateDeveloperInput.skills?.length) {
-      for (const skill of updateDeveloperInput.skills) {
-        await this.skillService.updatedeveloper(skill, id)
-      }
-    }
 
     return this.developerRepository.findOneAndUpdate({ id }, { ...updateDeveloperInput })
 
