@@ -15,6 +15,7 @@ import { DeveloperModule } from './developer/developer.module';
 import { Developer } from './developer/entities/developer.entity';
 import { MediaModule } from './media/media.module';
 import { SkillsModule } from './skills/skills.module';
+import { UserSkillsModule } from './user-skills/user-skills.module';
 const mongoUrl =`mongodb+srv://doadmin:062vzJf58yO14dV7@smartml-serviceapp-d50808dc.mongo.ondigitalocean.com/jsDB?tls=true&authSource=admin`
 @Module({
   imports: [
@@ -28,6 +29,8 @@ MongooseModule.forRoot(mongoUrl),
     MediaModule,
 
     SkillsModule,
+
+    UserSkillsModule,
     ],
   controllers: [AppController],
   providers: [AppService,GoogleStrategy],

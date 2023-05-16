@@ -16,7 +16,7 @@ import { SkillsService } from 'src/skills/skills.service';
 export class DeveloperService {
   getusername() {
     return this.developerRepository.find({
-      username : {
+      username: {
         $ne: null
       }
     }).select(['username'])
@@ -65,10 +65,11 @@ export class DeveloperService {
         'profilePicture.url', 'coverPicture.url',
         'bio', 'email', 'name', 'skills', 'socials', 'createdAt', 'updatedAt']
     ).
-    populate({
-      path: 'skills',
-      foreignField: 'id',
-      select: ['slug', 'name', 'logo.url']})
+      populate({
+        path: 'skills',
+        foreignField: 'id',
+        select: ['slug', 'name', 'logo.url']
+      })
 
   }
   checkUserByEmail(email: string) {
@@ -76,7 +77,7 @@ export class DeveloperService {
 
   }
   async update(id: string, updateDeveloperInput: UpdateDeveloperDto) {
-    
+
     if (updateDeveloperInput.username) {
       const existingUserName = await this.developerRepository.exists({
         username: updateDeveloperInput.username,
@@ -97,7 +98,7 @@ export class DeveloperService {
       }
     }
 
-    return this.developerRepository.findOneAndUpdate({ id }, {...updateDeveloperInput})
+    return this.developerRepository.findOneAndUpdate({ id }, { ...updateDeveloperInput })
 
   }
 
