@@ -1,0 +1,38 @@
+Competition Description:
+
+Participants are challenged to demonstrate their JavaScript mastery by crafting a sorting algorithm from scratch. You'll create a function named customSort that receives an array of integers and returns the array sorted in ascending order. The catch is - you're not allowed to use JavaScript's built-in sort() method. It's all about your algorithm skills here!
+
+Instructions:
+
+Write a JavaScript function named customSort that takes an array of integers as an argument.
+
+function customSort(arr) { 
+// Your code goes here 
+}
+
+Your function should return a new array that is sorted in ascending order.
+
+customSort([4, 2, 9, 1, 5]); 
+// Should return [1, 2, 4, 5, 9]
+
+You are free to use any sorting algorithm you like. You could use Bubble Sort, Selection Sort, Insertion Sort, Quick Sort or any other sorting algorithm of your choice.
+
+Benefits:
+
+This competition provides a great opportunity to flex your algorithmic skills and helps you to grasp the intricacies of sorting algorithms in JavaScript.
+
+For each correct submission, participants will earn coins. For instance, a correct and efficient solution might earn 100 coins. These coins can be saved and later redeemed. Every 50 coins equate to Rs 1, so the more you participate and win, the more you earn!
+
+Rules:
+
+Participants must submit the original code. Plagiarism is not allowed and will result in disqualification.
+
+Built-in JavaScript sorting methods  sort() are not permitted. The goal is to build your own sorting algorithm.
+
+Your function should correctly sort an array of integers provided as input. It will be tested against several test cases for validation.
+
+Submissions should be a .js file named with your username (for example, username.js).
+
+All submissions must be made before the competition's end time.
+
+Get ready to sort it out with "Pure JS Sorting Showdown" and best of luck to all participants! Pure JS Sorting Showdown

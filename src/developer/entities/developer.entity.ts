@@ -56,6 +56,12 @@ export class Developer {
   userskills: string[];
 
   @Prop({
+    ref: 'userchallange',
+    type: [String],
+  })
+  userChallanges: string[];
+
+  @Prop({
     ref: 'usercertificate',
     type: [String],
   })

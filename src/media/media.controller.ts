@@ -57,10 +57,15 @@ export class MediaController {
       .join('-');
 
       try {
-     
-        await removeImages([{
-          key: req.query.oldKey,
-        }]);
+        console.log('====================================');
+        console.log(req.query.oldKey);
+        console.log('====================================');
+        if(req.query.oldKey){
+          await removeImages([{
+            key: req.query.oldKey,
+          }]);
+        }
+       
       } catch (error) {
         console.log('====================================');
         console.log(error);
@@ -78,6 +83,7 @@ export class MediaController {
           quality: 100,
         })
         .toBuffer();
+        
       const metaData = await sharpImage.metadata();
       const data = await s3
         .upload({

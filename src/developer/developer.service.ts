@@ -85,6 +85,20 @@ export class DeveloperService {
       }
     })
   }
+  async  updateUserChallanges(id: string, userChallange: string) {
+    const developer =  await this.developerRepository.findOne({
+       id
+     })
+     if(developer.userChallanges.includes(userChallange)){
+       throw new Error('Challange already added')
+     }
+ 
+     return this.developerRepository.findOneAndUpdate({ id }, {
+       $push: {
+        userChallange
+       }
+     })
+   }
   async  updateUserCertificate(id: string, userCertificateId: string) {
     const developer =  await this.developerRepository.findOne({
        id

@@ -33,7 +33,7 @@ export class SkillsController {
     return this.skillsService.update(id, updateSkillDto);
   }
 
-  @Delete(':id')
+  @Delete('delete/:id')
   remove(@Param('id') id: string) {
     return this.skillsService.remove(id);
   }
