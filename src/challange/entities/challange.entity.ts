@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
 
+export type ChallangeLevelType = "Beginner" | "Intermediate" | "Advanced";
 @Schema({ timestamps: true })
 export class Challange {
 
@@ -37,6 +38,9 @@ export class Challange {
 
     @Prop()
     points: number;
+
+    @Prop()
+    level: ChallangeLevelType; // beginner, intermediate, advanced
 
     @Prop({
         ref: 'skill',

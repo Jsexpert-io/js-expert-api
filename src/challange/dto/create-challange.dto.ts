@@ -1,3 +1,5 @@
+import { ChallangeLevelType } from "../entities/challange.entity";
+
 export class CreateChallangeDto {
     name: string;
     start_date: string;
@@ -10,5 +12,6 @@ export class CreateChallangeDto {
     points: number;
     skills: string[];
     createdBy: string;
+    level: ChallangeLevelType; 
     
 }
