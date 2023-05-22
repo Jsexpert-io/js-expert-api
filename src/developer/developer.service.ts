@@ -31,7 +31,7 @@ export class DeveloperService {
     private skillService: SkillsService
   ) { }
   create(createDeveloperInput: CreateDeveloperDto) {
-    return this.developerRepository.create({ ...createDeveloperInput, id: v4() })
+    return this.developerRepository.create({ ...createDeveloperInput, id: v4(),username:createDeveloperInput.email.split('@')[0] })
   }
 
   findAll() {
