@@ -31,7 +31,7 @@ export class DeveloperService {
     private skillService: SkillsService
   ) { }
   create(createDeveloperInput: CreateDeveloperDto) {
-    return this.developerRepository.create({ ...createDeveloperInput, id: v4(),username:createDeveloperInput.email.split('@')[0] })
+    return this.developerRepository.create({ ...createDeveloperInput, id: v4(), username: createDeveloperInput.email.split('@')[0] })
   }
 
   findAll() {
@@ -71,11 +71,11 @@ export class DeveloperService {
     return this.developerRepository.exists({ email })
 
   }
- async  updateUserSkills(id: string, userSkill: string) {
-   const developer =  await this.developerRepository.findOne({
+  async updateUserSkills(id: string, userSkill: string) {
+    const developer = await this.developerRepository.findOne({
       id
     })
-    if(developer.userskills.includes(userSkill)){
+    if (developer.userskills.includes(userSkill)) {
       throw new Error('Skill already added')
     }
 
@@ -85,34 +85,34 @@ export class DeveloperService {
       }
     })
   }
-  async  updateUserChallanges(id: string, userChallange: string) {
-    const developer =  await this.developerRepository.findOne({
-       id
-     })
-     if(developer.userChallanges.includes(userChallange)){
-       throw new Error('Challange already added')
-     }
- 
-     return this.developerRepository.findOneAndUpdate({ id }, {
-       $push: {
+  async updateUserChallanges(id: string, userChallange: string) {
+    const developer = await this.developerRepository.findOne({
+      id
+    })
+    if (developer.userChallanges.includes(userChallange)) {
+      throw new Error('Challange already added')
+    }
+
+    return this.developerRepository.findOneAndUpdate({ id }, {
+      $push: {
         userChallange
-       }
-     })
-   }
-  async  updateUserCertificate(id: string, userCertificateId: string) {
-    const developer =  await this.developerRepository.findOne({
-       id
-     })
-     if(developer.usercertificates.includes(userCertificateId)){
-       throw new Error('User Certificate already added')
-     }
- 
-     return this.developerRepository.findOneAndUpdate({ id }, {
-       $push: {
-         usercertificates:userCertificateId
-       }
-     })
-   }
+      }
+    })
+  }
+  async updateUserCertificate(id: string, userCertificateId: string) {
+    const developer = await this.developerRepository.findOne({
+      id
+    })
+    if (developer.usercertificates.includes(userCertificateId)) {
+      throw new Error('User Certificate already added')
+    }
+
+    return this.developerRepository.findOneAndUpdate({ id }, {
+      $push: {
+        usercertificates: userCertificateId
+      }
+    })
+  }
   async update(id: string, updateDeveloperInput: UpdateDeveloperDto) {
 
     if (updateDeveloperInput.username) {
