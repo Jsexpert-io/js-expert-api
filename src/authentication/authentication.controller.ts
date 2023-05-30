@@ -18,7 +18,7 @@ export class AuthenticationController {
 
     res.cookie('token',token,{
       httpOnly:false,
-      domain:'jsexpert.io',
+      domain:'vercel.app',
 
     })
     return res.send({user,token})
