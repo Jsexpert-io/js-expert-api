@@ -18,7 +18,7 @@ export class AuthenticationController {
 
     res.cookie('token',token,{
       httpOnly:false,
-      domain:'localhost',
+      domain:'jsexpert.io',
 
     })
     return res.send({user,token})
