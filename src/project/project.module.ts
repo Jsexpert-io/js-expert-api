@@ -5,6 +5,7 @@ import { UserModule } from 'src/user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProjectSchema } from './entities/project.entity';
 
+
 @Module({
   imports: [UserModule,
     MongooseModule.forFeature([{ name: 'project', schema:ProjectSchema }])

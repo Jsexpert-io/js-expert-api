@@ -1,1 +1,4 @@
-export class CreateDbDatumDto {}
+export class CreateDbDatumDto {
+    data: any;
+    dbType: any;
+}

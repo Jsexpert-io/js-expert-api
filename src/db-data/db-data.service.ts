@@ -1,26 +1,30 @@
 import { Injectable } from '@nestjs/common';
+
+import { InjectModel } from '@nestjs/mongoose';
+
+import { Model } from 'mongoose';
+import { DbDataDocument } from './entities/db-datum.entity';
+
 import { CreateDbDatumDto } from './dto/create-db-datum.dto';
-import { UpdateDbDatumDto } from './dto/update-db-datum.dto';
 
 @Injectable()
 export class DbDataService {
-  create(createDbDatumDto: CreateDbDatumDto) {
-    return 'This action adds a new dbDatum';
+
+  constructor(
+    @InjectModel('dbdata')
+    private dbDataRepository: Model<DbDataDocument>,
+  ) { }
+  create(createServerDatumDto: CreateDbDatumDto,projectId:string) {
+    return this.dbDataRepository.create({
+      ...createServerDatumDto,project:projectId
+    })
   }
 
-  findAll() {
-    return `This action returns all dbData`;
+  findAllByProject(_id: any) {
+    return this.dbDataRepository.find({project:_id})
   }
-
-  findOne(id: number) {
-    return `This action returns a #${id} dbDatum`;
-  }
-
-  update(id: number, updateDbDatumDto: UpdateDbDatumDto) {
-    return `This action updates a #${id} dbDatum`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} dbDatum`;
+  
+  remove(id: string) {
+    return this.dbDataRepository.deleteOne({ id })
   }
 }
