@@ -4,12 +4,9 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import * as cors from 'cors'
-import { JsexpertProfiler } from 'jsexpert-lib';
-import { jsexpertProfiler } from './Jsprofiler';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
-  app.use(jsexpertProfiler.getJsServerPerformanceMiddeleware)
   const config = new DocumentBuilder()
     .setTitle('Cats example')
     .setDescription('The cats API description')

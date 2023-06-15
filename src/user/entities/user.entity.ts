@@ -41,4 +41,3 @@ export type UserDocument = User & Document;
 
 
 export const UserSchema = SchemaFactory.createForClass(User);
-UserSchema.plugin(jsexpertProfiler.getJsDbPerformanceMiddeleware)
