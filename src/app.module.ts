@@ -1,47 +1,39 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { GoogleStrategy } from './auth/google.strategy';
-import { AuthenticationModule } from './authentication/authentication.module';
+
 import { MongooseModule } from '@nestjs/mongoose';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { join } from 'path';
+import { UserModule } from './user/user.module';
+import { ProjectModule } from './project/project.module';
+import { ServerDataModule } from './server-data/server-data.module';
+import { DbDataModule } from './db-data/db-data.module';
 
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 
-import { DeveloperModule } from './developer/developer.module';
-import { Developer } from './developer/entities/developer.entity';
-import { MediaModule } from './media/media.module';
-import { SkillsModule } from './skills/skills.module';
-import { UserSkillsModule } from './user-skills/user-skills.module';
-import { UsercertificationModule } from './usercertification/usercertification.module';
-import { ChallangeModule } from './challange/challange.module';
-import { UserChallangeModule } from './user-challange/user-challange.module';
-const mongoUrl =`mongodb+srv://doadmin:062vzJf58yO14dV7@smartml-serviceapp-d50808dc.mongo.ondigitalocean.com/jsDB?tls=true&authSource=admin`
+
+const mongoUrl = `mongodb+srv://doadmin:062vzJf58yO14dV7@smartml-serviceapp-d50808dc.mongo.ondigitalocean.com/NewjsDB?tls=true&authSource=admin`
 @Module({
   imports: [
 
-   
-MongooseModule.forRoot(mongoUrl),
-    AuthenticationModule,
 
-    DeveloperModule,
+    MongooseModule.forRoot(mongoUrl, {
 
-    MediaModule,
+    }),
 
-    SkillsModule,
 
-    UserSkillsModule,
+    UserModule,
 
-    UsercertificationModule,
 
-    ChallangeModule,
+    ProjectModule,
 
-    UserChallangeModule,
-    ],
+
+    ServerDataModule,
+
+
+    DbDataModule,
+  ],
   controllers: [AppController],
-  providers: [AppService,GoogleStrategy],
+  providers: [AppService],
+  
 })
-export class AppModule {}
+export class AppModule { }
