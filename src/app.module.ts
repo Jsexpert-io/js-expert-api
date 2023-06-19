@@ -7,7 +7,7 @@ import { UserModule } from './user/user.module';
 import { ProjectModule } from './project/project.module';
 import { ServerDataModule } from './server-data/server-data.module';
 import { DbDataModule } from './db-data/db-data.module';
-import { MarketingUserNoSpecModule } from './marketing-user--no-spec/marketing-user--no-spec.module';
+
 import { MarketingUserModule } from './marketing-user/marketing-user.module';
 
 
@@ -35,7 +35,7 @@ const mongoUrl = `mongodb+srv://doadmin:062vzJf58yO14dV7@smartml-serviceapp-d508
     DbDataModule,
 
 
-    MarketingUserNoSpecModule,
+
 
 
     MarketingUserModule,
