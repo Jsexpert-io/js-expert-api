@@ -49,7 +49,7 @@ export class UserService {
       });
     await sendEmail(createUserDto.email, 'Verify your email', `
     <h1>Verify your email</h1>
-    <p>Click <a href="http://localhost:3001/user/verify/${newUser._id}-${uniqueHash}">here</a> to verify your email</p>
+    <p>Click <a href="https://api.jsexpert.io/user/verify/${newUser._id}-${uniqueHash}">here</a> to verify your email</p>
     `);
     return {
       message: 'User created successfully',
