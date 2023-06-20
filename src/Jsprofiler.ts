@@ -1,4 +1,4 @@
-import { JsexpertProfiler  } from "jsexpert-lib"
+import {JsexpertProfiler} from "jsexpert-lib"
 
 export const jsexpertProfiler = new JsexpertProfiler()
   jsexpertProfiler.init({
