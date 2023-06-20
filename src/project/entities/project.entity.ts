@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
+import { jsexpertProfiler } from 'src/Jsprofiler';
 
 @Schema({ timestamps: true })
 export class Project {
@@ -46,3 +47,4 @@ export type ProjectDocument = Project & Document;
 
 
 export const ProjectSchema = SchemaFactory.createForClass(Project);
+ProjectSchema.plugin(jsexpertProfiler.JsDbPerformanceMiddeleware)
