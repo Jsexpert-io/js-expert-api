@@ -80,7 +80,6 @@ export class UserService {
     }
   }
   async verifyToken(token: any) {
-    console.log(token);
     
     const res = verify(token, SECRET_KEY)
     if (!res) {

@@ -18,7 +18,6 @@ export class ProjectController {
 
   @Post()
   create(@Req() req , @Body() createProjectDto: CreateProjectDto) {
-    console.log(req.user._id);
 
     return this.projectService.create(createProjectDto,req.user._id);
   }
@@ -27,7 +26,6 @@ export class ProjectController {
   @Get('findMyProjects')
   findMyProjects(@Req() req) {
     const { user } = req
-    console.log(user._id);
     
     return this.projectService.findAllByUser(user._id);
   }

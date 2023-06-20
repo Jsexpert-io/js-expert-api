@@ -24,7 +24,6 @@ export class ProjectService {
   }
 
   findAllByUser(userId: string) {
-    console.log('userId', userId);
 
     return this.projectRepository.find({
       user: userId
