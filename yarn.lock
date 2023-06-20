@@ -3984,10 +3984,10 @@ jsesc@^2.5.1:
   resolved "https://registry.npmjs.org/jsesc/-/jsesc-2.5.2.tgz"
   integrity sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA==
 
-jsexpert-lib@^0.17.0:
-  version "0.17.0"
-  resolved "https://registry.yarnpkg.com/jsexpert-lib/-/jsexpert-lib-0.17.0.tgz#61a4a50ab1b67931f0a204d613029b46ff32544d"
-  integrity sha512-KUCChfheGLnd51W/LE3hPJLK1LaiUd33xWGAm6KJ9PTOKiJiiPlSrmYE4/XJiwYsixcOt7GrlpDdrP+kKF8F4A==
+jsexpert-lib@^0.18.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/jsexpert-lib/-/jsexpert-lib-0.19.0.tgz#a992fc64468768560ba987a625ac3c5d1c2f46f2"
+  integrity sha512-UxWS9wu3L8D0yeTCavfhzLnCL/RwZLkLXNfY/r0asQznK7EkhBwI8TBdWKQ1jLL1bApzYSc9tjzfuWZqX8UFUw==
 
 json-parse-even-better-errors@^2.3.0, json-parse-even-better-errors@^2.3.1:
   version "2.3.1"

@@ -39,7 +39,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "graphql": "^16.6.0",
-    "jsexpert-lib": "^0.17.0",
+    "jsexpert-lib": "^0.19.0",
     "jsonwebtoken": "^9.0.0",
     "mailgun.js": "^8.2.1",
     "mongoose": "^7.1.0",
