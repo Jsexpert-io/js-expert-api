@@ -11,7 +11,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Js Analyzer')
     .setDescription('The Js Analyzer API Description')
-    .setVersion('2.0')
+    .setVersion('2.1')
     .addTag('js-analyzer')
     .addBearerAuth()
     .build();
