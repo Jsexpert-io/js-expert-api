@@ -4,7 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import * as cors from 'cors'
-import { jsexpertProfiler } from './Jsprofiler';
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,7 +15,7 @@ async function bootstrap() {
     .addTag('js-analyzer')
     .addBearerAuth()
     .build();
-    app.use(jsexpertProfiler.JsServerPerformanceMiddeleware)
+  
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
   app.useGlobalPipes(new ValidationPipe())
