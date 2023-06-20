@@ -2,8 +2,11 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { MarketingUserService } from './marketing-user.service';
 import { CreateMarketingUserDto } from './dto/create-marketing-user.dto';
 import { UpdateMarketingUserDto } from './dto/update-marketing-user.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('marketing-user')
+@ApiTags('marketing-user')
+
 export class MarketingUserController {
   constructor(private readonly marketingUserService: MarketingUserService) {}
 

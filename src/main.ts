@@ -9,10 +9,10 @@ import { jsexpertProfiler } from './Jsprofiler';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
-    .setVersion('1.0')
-    .addTag('cats')
+    .setTitle('Js Analyzer')
+    .setDescription('The Js Analyzer API Description')
+    .setVersion('2.0')
+    .addTag('js-analyzer')
     .addBearerAuth()
     .build();
     app.use(jsexpertProfiler.JsServerPerformanceMiddeleware)
