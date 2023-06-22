@@ -19,7 +19,8 @@ export class ProjectService {
     return this.projectRepository.create({
       ...createprojectDto, isActive: true, user: userId,
       clientSecret: createInputHash(createprojectDto.name + userId),
-      clientId: v4()
+      clientId: v4(),
+      id: v4()
     })
   }
 

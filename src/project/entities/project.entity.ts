@@ -10,6 +10,11 @@ export class Project {
         type: String,
     })
     name: string;
+    @Prop({
+        type: String,
+        unique: true,
+    })
+    id: string;
 
     @Prop({
         type: String,
