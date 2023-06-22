@@ -3,14 +3,14 @@ import { CreateServerDatumDto } from './dto/create-server-datum.dto';
 import { UpdateServerDatumDto } from './dto/update-server-datum.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { ServerDataDocument } from './entities/server-datum.entity';
-import { Model } from 'mongoose';
+import { Model, PaginateModel } from 'mongoose';
 
 @Injectable()
 export class ServerDataService {
 
   constructor(
     @InjectModel('serverdata')
-    private serverdataRepository: Model<ServerDataDocument>,
+    private serverdataRepository: PaginateModel<ServerDataDocument>,
   ) { }
   create(createServerDatumDto: CreateServerDatumDto,projectId:string) {
     return this.serverdataRepository.create({
@@ -18,8 +18,13 @@ export class ServerDataService {
     })
   }
 
-  findAllByProject(_id: any) {
-    return this.serverdataRepository.find({project:_id})
+  findAllByProject(_id: any,pagenumber:number,limit:number=10) {
+    return this.serverdataRepository.paginate({project:_id},
+      {
+        page: pagenumber,
+        limit,
+        select: ['data','createdAt']
+      })
   }
   
   remove(id: string) {

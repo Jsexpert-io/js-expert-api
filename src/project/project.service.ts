@@ -27,8 +27,9 @@ export class ProjectService {
   findAllByUser(userId: string) {
 
     return this.projectRepository.find({
-      user: userId
-    }).populate('user')
+      user: userId,
+      isActive: true
+    }).select(['name','id','description','clientSecret','clientId'])
 
   }
 
