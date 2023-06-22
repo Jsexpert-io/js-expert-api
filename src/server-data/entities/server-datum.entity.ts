@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
-import paginate from 'mongoose-paginate-v2';
+import * as paginate from 'mongoose-paginate-v2';
 import { jsexpertProfiler } from 'src/Jsprofiler';
 @Schema({ timestamps: true })
 export class ServerData {

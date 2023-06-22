@@ -17,9 +17,9 @@ export class ServerDataController {
     return this.serverDataService.create(createServerDatumDto,req.project._id);
   }
 
-  @Get(':/pagenumber/:limit')
+  @Get(':pagenumber/:limit')
   findAll(@Req() req:any,@Param('pagenumber') pagenumber: number,@Param('limit') limit: number) {
-    return this.serverDataService.findAllByProject(req.project._id,pagenumber,limit);
+    return this.serverDataService.findAllByProject(req?.project?._id,pagenumber,limit);
   }
 
  
