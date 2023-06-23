@@ -19,7 +19,7 @@ export class ServerDataController {
 
   @Get(':pagenumber/:limit')
   findAll(@Req() req:any,@Param('pagenumber') pagenumber: number,@Param('limit') limit: number) {
-    return this.serverDataService.findAllByProject(req?.project?._id || "6493f5f6b755cb6d914fc494",pagenumber,limit);
+    return this.serverDataService.findAllByProject(req?.project?._id ,pagenumber,limit);
   }
 
  
