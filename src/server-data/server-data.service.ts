@@ -12,83 +12,95 @@ export class ServerDataService {
     @InjectModel('serverdata')
     private serverdataRepository: PaginateModel<ServerDataDocument>,
   ) { }
-  create(createServerDatumDto: CreateServerDatumDto,projectId:string) {
+  create(createServerDatumDto: CreateServerDatumDto, projectId: string) {
     return this.serverdataRepository.create({
-      ...createServerDatumDto,project:projectId
+      ...createServerDatumDto, project: projectId
     })
   }
 
-  findAllByProject(projectId: string,pagenumber:number,limit:number=10) {
-    
-   return this.serverdataRepository.aggregate([
-    {$match:{project:String(projectId)}},
-    {
-      $group: {
-        _id: {
-          endpoint: '$data.requestObject.path',
-          method: '$data.requestObject.method'
-        },
-        count: { $sum: 1 },
-        avgDuration: { $avg: '$data.durationInMilliseconds' },
-        
-        avgReqSize: { $avg: '$data.requestObject.reqSize' },
-        avgResSize: { $avg: '$data.responseObject.resSize' },
-        maxDuration: { $max: '$data.durationInMilliseconds' },
-        minDuration: { $min: '$data.durationInMilliseconds' },
-        latestRequestDate: { $max: '$createdAt' },
-        avgMemoryUsage: { $avg: '$data.memoryUsage' },
-        successfulRequests: {
-          $sum: {
-            $cond: [
-              { $in:  ['$data.responseObject.status', [200, 201, 202, 203, 204, 205, 206, 207, 208, 226]]
-              },
-              1,
-              0
-            ]
-          }
-        },
-        failedRequests: {
-          $sum: {
-            $cond: [
-              { $in:  ['$data.responseObject.status', 
-              [400, 401, 402, 403, 
-                404, 405, 406, 407, 408, 409,500,501,502,503,504,505,506,507,508,510,511]]
-              },
-              1,
-              0
-            ]
+  findAllByProject(projectId: string, page: number, limit: number, sortBy: string, orderBy: string, search: string) {
+
+    const matchQuery = {
+      project: String(projectId),
+    }
+    if (search) {
+      matchQuery['data.requestObject.path'] = { $regex: search, $options: 'i' }
+    }
+    console.log(JSON.stringify(matchQuery));
+
+    return this.serverdataRepository.aggregate([
+      {
+        $match: matchQuery
+      },
+      {
+        $group: {
+          _id: {
+            endpoint: '$data.requestObject.path',
+            method: '$data.requestObject.method'
+          },
+          count: { $sum: 1 },
+          avgDuration: { $avg: '$data.durationInMilliseconds' },
+
+          avgReqSize: { $avg: '$data.requestObject.reqSize' },
+          avgResSize: { $avg: '$data.responseObject.resSize' },
+          maxDuration: { $max: '$data.durationInMilliseconds' },
+          minDuration: { $min: '$data.durationInMilliseconds' },
+          latestRequestDate: { $max: '$createdAt' },
+          avgMemoryUsage: { $avg: '$data.memoryUsage' },
+          successfulRequests: {
+            $sum: {
+              $cond: [
+                {
+                  $in: ['$data.responseObject.status', [200, 201, 202, 203, 204, 205, 206, 207, 208, 226]]
+                },
+                1,
+                0
+              ]
+            }
+          },
+          failedRequests: {
+            $sum: {
+              $cond: [
+                {
+                  $in: ['$data.responseObject.status',
+                    [400, 401, 402, 403,
+                      404, 405, 406, 407, 408, 409, 500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511]]
+                },
+                1,
+                0
+              ]
+            }
           }
         }
+      },
+      {
+        $sort: {
+          [sortBy || "createdAt"]: orderBy === 'asc' ? 1 : -1
+        }
+      },
+      {
+        $facet: {
+          metadata: [{ $count: 'total' }],
+          paginatedData: [{ $skip: (page - 1) * Number(limit) }, { $limit: Number(limit) }]
+        }
       }
-    },
-    {
-      $sort: {
-        count: -1 // Sort by the number of requests in descending order
-      }
-    },
-    {
-      $facet: {
-        metadata: [{ $count: 'total' }],
-        paginatedData: [{ $skip: (pagenumber - 1) * Number(limit) }, { $limit: Number(limit) }]
-      }
-    }
-  ])
-  .then((result) => {
-    const metadata = result[0].metadata[0];
-    const paginatedData = result[0].paginatedData;
-    const total = metadata ? metadata.total : 0;
-    return {
-      total,
-      paginatedData
-    }
-    console.log('Total documents:', total);
-    console.log('Paginated data:', paginatedData);
-  })
+    ])
+      .then((result) => {
+        const metadata = result[0].metadata[0];
+        const paginatedData = result[0].paginatedData;
+        const total = metadata ? metadata.total : 0;
+        return {
+          total,
+          paginatedData
+        }
+        console.log('Total documents:', total);
+        console.log('Paginated data:', paginatedData);
+      })
     // return this.serverdataRepository.aggregate([
     //   // {
     //   //   $match: { project: _id }
     //   // },
-     
+
     // ])
     // return this.serverdataRepository.paginate({project:_id},
     //   {
@@ -97,7 +109,7 @@ export class ServerDataService {
     //     select: ['data','createdAt']
     //   })
   }
-  
+
   remove(id: string) {
     return this.serverdataRepository.deleteOne({ id })
   }
