@@ -18,11 +18,10 @@ export class ServerDataService {
     })
   }
 
-  findAllByProject(_id: any,pagenumber:number,limit:number=10) {
-    console.log(pagenumber,limit);
+  findAllByProject(projectId: string,pagenumber:number,limit:number=10) {
     
    return this.serverdataRepository.aggregate([
-    {$match:{project:_id}},
+    {$match:{project:String(projectId)}},
     {
       $group: {
         _id: {
