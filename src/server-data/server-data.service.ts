@@ -22,9 +22,13 @@ export class ServerDataService {
     console.log(pagenumber,limit);
     
    return this.serverdataRepository.aggregate([
+    {$match:{project:_id}},
     {
       $group: {
-        _id: '$data.requestObject.path',
+        _id: {
+          endpoint: '$data.requestObject.path',
+          method: '$data.requestObject.method'
+        },
         count: { $sum: 1 },
         avgDuration: { $avg: '$data.durationInMilliseconds' },
         
