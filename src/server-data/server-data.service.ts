@@ -91,17 +91,18 @@ export class ServerDataService {
           }
         }
       },
-      // {
-      //   $project: {
-      //     _id: 0,
-      //     method: '$_id',
-      //     count: 1
-      //   }
-      // }
+        // {
+        //   $project: {
+        //     _id: 0,
+        //     method: '$_id',
+        //     count: 1
+        //   }
+        // }
     ])
   }
-  getMemoryUsageTrend(_id: any) {
+  getMemoryUsageTrend(_id: any, startDate: Date, endDate: Date) {
     return this.serverdataRepository.aggregate([
+      
       {
         $group: {
           _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },

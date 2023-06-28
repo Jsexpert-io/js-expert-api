@@ -58,10 +58,16 @@ export class ServerDataController {
     );
   }
   @Get('getMemoryUsageTrend')
-  getMemoryUsageTrend(@Req() req: any
+  getMemoryUsageTrend(@Req() req: any,
+    @Query('startDate') startDate: Date,
+    @Query('endDate') endDate: Date = new Date(),
+
   ) {
+    if(!startDate) startDate = new Date(new Date().setDate(new Date().getDate() - 30))
+
+    console.log(startDate,endDate)
     return this.serverDataService.getMemoryUsageTrend(
-      req?.project?._id
+      req?.project?._id,startDate,endDate
     );
   }
   @Get('errorStatusCodeDitribution')
