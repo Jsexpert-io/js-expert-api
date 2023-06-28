@@ -81,10 +81,18 @@ export class UserService {
   }
   async verifyToken(token: any) {
     
-    const res = verify(token, SECRET_KEY)
-    if (!res) {
-      throw new UnauthorizedException('Invalid token')
+    try {
+      const res = verify(token, SECRET_KEY)
+      console.log('res',res);
+      
+      if (!res) {
+        throw new UnauthorizedException('Invalid token')
+      }
+    } catch (error) {
+      console.log('error error',error);
+      throw error
     }
+   
     const payload: any = decode(token)
     const user = await this.userRepository.findOne({ _id: payload.id })
     if (user) {

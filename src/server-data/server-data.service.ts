@@ -8,6 +8,136 @@ import { Model, PaginateModel } from 'mongoose';
 @Injectable()
 export class ServerDataService {
 
+  findByEndpoint(_id: any, endpoint: string) {
+    return this.serverdataRepository.find({
+      project: _id,
+      'data.requestObject.path': endpoint
+    }).select(['data', 'createdAt'])
+
+  }
+
+
+  getRequestDistribution(_id: any) {
+    return this.serverdataRepository.aggregate([
+      {
+        $group: {
+          _id: null,
+          durations: { $push: '$data.durationInMilliseconds' },
+          successfulRequests: {
+            $sum: {
+              $cond: [
+                {
+                  $in: ['$data.responseObject.status', [200, 201, 202, 203, 204, 205, 206, 207, 208, 226]]
+                },
+                1,
+                0
+              ]
+            }
+          },
+          failedRequests: {
+            $sum: {
+              $cond: [
+                {
+                  $in: ['$data.responseObject.status',
+                    [400, 401, 402, 403,
+                      404, 405, 406, 407, 408, 409, 500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511]]
+                },
+                1,
+                0
+              ]
+            }
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          durations: 1
+        }
+      }
+    ])
+  }
+
+  getRequestDurationDistribution(_id: any) {
+    console.log('getRequestDurationDistribution');
+    return this.serverdataRepository.aggregate([
+      {
+        $group: {
+          _id: '$data.requestObject.method',
+          count: { $sum: 1 },
+          successfulRequests: {
+            $sum: {
+              $cond: [
+                {
+                  $in: ['$data.responseObject.status', [200, 201, 202, 203, 204, 205, 206, 207, 208, 226]]
+                },
+                1,
+                0
+              ]
+            }
+          },
+          failedRequests: {
+            $sum: {
+              $cond: [
+                {
+                  $in: ['$data.responseObject.status',
+                    [400, 401, 402, 403,
+                      404, 405, 406, 407, 408, 409, 500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511]]
+                },
+                1,
+                0
+              ]
+            }
+          }
+        }
+      },
+      // {
+      //   $project: {
+      //     _id: 0,
+      //     method: '$_id',
+      //     count: 1
+      //   }
+      // }
+    ])
+  }
+  getMemoryUsageTrend(_id: any) {
+    return this.serverdataRepository.aggregate([
+      {
+        $group: {
+          _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+          avgMemoryUsage: { $avg: '$data.memoryUsage' }
+        }
+      },
+      {
+        $sort: { _id: 1 }
+      },
+      {
+        $project: {
+          _id: 0,
+          date: '$_id',
+          avgMemoryUsage: 1
+        }
+      }
+    ])
+  }
+  errorStatusCodeDitribution(_id: any) {
+    return this.serverdataRepository.aggregate([
+      {
+        $group: {
+          _id: '$data.responseObject.status',
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          statusCode: '$_id',
+          count: 1
+        }
+      }
+    ])
+  }
+
   constructor(
     @InjectModel('serverdata')
     private serverdataRepository: PaginateModel<ServerDataDocument>,

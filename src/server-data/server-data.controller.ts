@@ -18,7 +18,7 @@ export class ServerDataController {
   }
 
   // https://api.jsexpert.io/server-data?sortBy=&orderBy=&page=1&limit=10&search=
-  @Get('')
+  @Get()
   findAll(@Req() req: any,
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 10,
@@ -31,7 +31,46 @@ export class ServerDataController {
     );
   }
 
+  
+  @Get('findByEndpoint')
+  findByEndpoint(@Req() req: any,
+    @Query('endpoint') endpoint: string,
+  ) {
+    return this.serverDataService.findByEndpoint(
+      req?.project?._id,
+      endpoint
+    );
+  }
 
+  @Get('getRequestDistribution')
+  getRequestDistribution(@Req() req: any
+  ) {
+    return this.serverDataService.getRequestDistribution(
+      req?.project?._id
+    );
+  }
+
+  @Get('getRequestDurationDistribution')
+  getRequestDurationDistribution(@Req() req: any
+  ) {
+    return this.serverDataService.getRequestDurationDistribution(
+      req?.project?._id
+    );
+  }
+  @Get('getMemoryUsageTrend')
+  getMemoryUsageTrend(@Req() req: any
+  ) {
+    return this.serverDataService.getMemoryUsageTrend(
+      req?.project?._id
+    );
+  }
+  @Get('errorStatusCodeDitribution')
+  errorStatusCodeDitribution(@Req() req: any
+  ) {
+    return this.serverDataService.errorStatusCodeDitribution(
+      req?.project?._id
+    );
+  }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
