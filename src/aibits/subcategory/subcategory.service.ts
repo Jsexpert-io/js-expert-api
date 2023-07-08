@@ -30,7 +30,7 @@ export class SubcategoryService {
 
   findbycategory(category: string) {
     console.log(category);
-    return this.aibitsSubcategoryRepository.findOne({ category: category.toString() });
+    return this.aibitsSubcategoryRepository.find({ category: category.toString() });
   }
 
 
