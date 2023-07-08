@@ -30,8 +30,8 @@ export class ConceptService {
     return this.aibitsConceptRepository.find({ subcategory: subCategory });
   }
 
-  findOne(slug: string) {
-    return this.aibitsConceptRepository.findOne({ slug });
+  findOne(id: string) {
+    return this.aibitsConceptRepository.findOne({ _id:id });
   }
 
 

@@ -24,8 +24,8 @@ export class SubcategoryService {
     return this.aibitsSubcategoryRepository.find();
   }
 
-  findOne(slug: string) {
-    return this.aibitsSubcategoryRepository.findOne({ slug });
+  findOne(id: string) {
+    return this.aibitsSubcategoryRepository.findOne({ _id:id });
   }
 
   findbycategory(category: string) {
