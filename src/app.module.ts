@@ -12,6 +12,7 @@ import { MarketingUserModule } from './marketing-user/marketing-user.module';
 import { CategoryModule } from './aibits/category/category.module';
 import { SubcategoryModule } from './aibits/subcategory/subcategory.module';
 import { ConceptsModule } from './aibits/concepts/concepts.module';
+import { ConceptcardModule } from './aibits/conceptcard/conceptcard.module';
 
 
 
@@ -60,6 +61,12 @@ const mongoUrl = `mongodb+srv://doadmin:062vzJf58yO14dV7@smartml-serviceapp-d508
 
 
     ConceptsModule,
+
+
+
+
+
+    ConceptcardModule,
   ],
   controllers: [AppController],
   providers: [AppService],

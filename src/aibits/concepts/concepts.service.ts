@@ -16,9 +16,9 @@ export class ConceptService {
   create(createConceptDto: CreateConceptDto) {
     return this.aibitsConceptRepository.create({
       ...createConceptDto, slug: createConceptDto.
-      title.toLowerCase().replace(/ /g, '-')
-      // remove () [] {} and spaces
-      .replace(/[(){}[\] ]/g, '')
+        title.toLowerCase().replace(/ /g, '-')
+        // remove () [] {} and spaces
+        .replace(/[(){}[\] ]/g, '')
 
     })
   }
@@ -26,8 +26,8 @@ export class ConceptService {
   findAll() {
     return this.aibitsConceptRepository.find();
   }
-  findbySubcategory(subCategory:any) {
-    return this.aibitsConceptRepository.find({ subcategory:subCategory});
+  findbySubcategory(subCategory: any) {
+    return this.aibitsConceptRepository.find({ subcategory: subCategory });
   }
 
   findOne(slug: string) {
@@ -45,6 +45,6 @@ export class ConceptService {
   }
 
   remove(id: any) {
-    return this.aibitsConceptRepository.deleteOne({_id:id});
+    return this.aibitsConceptRepository.deleteOne({ _id: id });
   }
 }
