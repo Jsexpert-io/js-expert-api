@@ -38,6 +38,7 @@
     "class-validator": "^0.14.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
+    "express-async-errors": "^3.1.1",
     "graphql": "^16.6.0",
     "jsexpert-lib": "^0.22.2",
     "jsonwebtoken": "^9.0.0",
