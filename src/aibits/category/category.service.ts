@@ -20,11 +20,13 @@ export class CategoryService {
     return this.aibitsCategoryRepository.find();
   }
 
-  findOne(slug: string) {
+  findOneBySlug(slug: string) {
     return this.aibitsCategoryRepository.findOne({slug});
   }
    
-  
+  findOne(id: string) {
+    return this.aibitsCategoryRepository.findOne({_id:id});
+  }
 
   update(id: any, updateCategoryDto: UpdateCategoryDto) {
     return this.aibitsCategoryRepository.updateOne({_id:id},{
