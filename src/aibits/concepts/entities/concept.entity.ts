@@ -11,7 +11,10 @@ export class Concept {
     @Prop()
     description: string;
 
-
+    @Prop({
+        ref: 'aibitsCategory',
+    })
+    category: string;
 
     @Prop({
         ref: 'aibitsSubcategory',

@@ -29,7 +29,9 @@ export class ConceptService {
   findbySubcategory(subCategory: any) {
     return this.aibitsConceptRepository.find({ subcategory: subCategory });
   }
-
+  findbyCategory(category: any) {
+    return this.aibitsConceptRepository.find({ category: category });
+  }
   findOne(id: string) {
     return this.aibitsConceptRepository.findOne({ _id:id });
   }

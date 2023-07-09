@@ -27,7 +27,7 @@ export class ConceptcardService {
   }
 
   findByConcept(id: string) {
-    return this.aibitsConceptCardRepository.findOne({ concept: id });
+    return this.aibitsConceptCardRepository.find({ concept: id });
   }
 
   update(id: string, updateConceptcardDto: UpdateConceptcardDto) {

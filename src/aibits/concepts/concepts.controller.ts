@@ -19,12 +19,20 @@ export class ConceptsController {
   findAll() {
     return this.conceptsService.findAll();
   }
-  @Get('findbySubcategory/:category')
+  @Get('findbySubcategory/:id')
   findbySubcategory(
+    @Param('id') id: string,
+  ) {
+    return this.conceptsService.findbySubcategory(id);
+  }
+
+  @Get('findbyCategory/:category')
+  findbyCategory(
     @Param('category') category: string,
   ) {
-    return this.conceptsService.findbySubcategory(category);
+    return this.conceptsService.findbyCategory(category);
   }
+
 
   @Get(':id')
   findOne(@Param('id') id: string) {

@@ -1,6 +1,8 @@
 export class CreateConceptDto {
-    title;
-    description;
-    image;
-    subcategory;
+    title : string;
+    description : string;
+    image : string;
+    subcategory : string;
+    category: string;
+
 }
