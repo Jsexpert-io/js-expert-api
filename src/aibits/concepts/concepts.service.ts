@@ -24,16 +24,17 @@ export class ConceptService {
   }
 
   findAll() {
-    return this.aibitsConceptRepository.find().populate('conceptCards');
+    return this.aibitsConceptRepository.find();
   }
   findbySubcategory(subCategory: any) {
-    return this.aibitsConceptRepository.find({ subcategory: subCategory }).populate('conceptCards');
+    return this.aibitsConceptRepository.find({ subcategory: subCategory })
+    ;
   }
   findbyCategory(category: any) {
     return this.aibitsConceptRepository.find({ category: category });
   }
   findOne(id: string) {
-    return this.aibitsConceptRepository.findOne({ _id:id });
+    return this.aibitsConceptRepository.findOne({ _id:id }).populate('conceptCards');
   }
 
 
