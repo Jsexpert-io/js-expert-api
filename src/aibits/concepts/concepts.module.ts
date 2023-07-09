@@ -9,6 +9,7 @@ import { ConceptSchema } from './entities/concept.entity';
     MongooseModule.forFeature([{ name: 'aibitsConcept', schema:ConceptSchema }]),
   ],
   controllers: [ConceptsController],
-  providers: [ConceptService]
+  providers: [ConceptService],
+  exports: [ConceptService]
 })
 export class ConceptsModule {}

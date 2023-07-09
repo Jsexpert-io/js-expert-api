@@ -3,7 +3,7 @@ import { CreateConceptDto } from './dto/create-concept.dto';
 import { UpdateConceptDto } from './dto/update-concept.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { ConceptDocument } from './entities/concept.entity';
-import { Model } from 'mongoose';
+import mongoose, { Model ,ObjectId } from 'mongoose';
 import { ApiTags } from '@nestjs/swagger';
 
 @Injectable()
@@ -24,10 +24,10 @@ export class ConceptService {
   }
 
   findAll() {
-    return this.aibitsConceptRepository.find();
+    return this.aibitsConceptRepository.find().populate('conceptCards');
   }
   findbySubcategory(subCategory: any) {
-    return this.aibitsConceptRepository.find({ subcategory: subCategory });
+    return this.aibitsConceptRepository.find({ subcategory: subCategory }).populate('conceptCards');
   }
   findbyCategory(category: any) {
     return this.aibitsConceptRepository.find({ category: category });
@@ -39,10 +39,26 @@ export class ConceptService {
 
 
   update(id: string, updateConceptDto: UpdateConceptDto) {
-    return this.aibitsConceptRepository.updateOne({ id }, {
+    return this.aibitsConceptRepository.updateOne({ _id:id }, {
       title: updateConceptDto.title,
       description: updateConceptDto.description,
       image: updateConceptDto.image,
+      links: updateConceptDto.links,
+    });
+  }
+
+
+  updateConceptCards(id: any, conceptCardId: any) {
+    console.log(id, conceptCardId)
+    const objectId = mongoose.Types.ObjectId.createFromHexString(conceptCardId);
+
+    return this.aibitsConceptRepository.updateOne({ _id:id }, {
+      $push: { conceptCards: conceptCardId },
+    });
+  }
+  removeConceptCards(id: string, conceptCardId: string) {
+    return this.aibitsConceptRepository.updateOne({ _id:id }, {
+      $pull: { conceptCards: conceptCardId },
     });
   }
 

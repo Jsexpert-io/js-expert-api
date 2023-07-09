@@ -29,6 +29,30 @@ export class Concept {
     })
     image: string;
 
+    @Prop({
+        type:mongoose.Schema.Types.Mixed,
+        default: {
+            youtube: '',
+            wikipedia: '',
+            blog: '',
+            other: '',
+            medium: '',
+        },
+    })
+    links: {
+        youtube: string,
+        wikipedia: string,
+        blog: string,
+        other: string,
+        medium: string,
+    };
+
+    // one concept has many concept cards
+    @Prop({
+        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'aibitsConceptCard' }],
+    })
+    conceptCards: string[];
+
    
 
 }
