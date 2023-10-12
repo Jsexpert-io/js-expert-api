@@ -2,7 +2,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
 import * as paginate from 'mongoose-paginate-v2';
-import { jsexpertProfiler } from 'src/Jsprofiler';
 @Schema({ timestamps: true })
 export class ServerData {
 
@@ -24,5 +23,4 @@ export type ServerDataDocument = ServerData & Document;
 
 export const ServerDataSchema = SchemaFactory.createForClass(ServerData);
 ServerDataSchema.plugin(paginate);
-// ServerDataSchema.plugin(jsexpertProfiler.JsDbPerformanceMiddeleware)
 
