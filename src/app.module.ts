@@ -17,7 +17,7 @@ import { ConceptcardModule } from './aibits/conceptcard/conceptcard.module';
 
 
 
-const mongoUrl = `mongodb+srv://doadmin:062vzJf58yO14dV7@smartml-serviceapp-d50808dc.mongo.ondigitalocean.com/NewjsDB?tls=true&authSource=admin`
+const mongoUrl = `mongodb+srv://doadmin:12u0B9Zj4Vs6kM73@mongo-db-fbecff69.mongo.ondigitalocean.com/jsexpert?tls=true&authSource=admin`
 @Module({
   imports: [
 
