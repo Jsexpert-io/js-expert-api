@@ -24,5 +24,5 @@ export type ServerDataDocument = ServerData & Document;
 
 export const ServerDataSchema = SchemaFactory.createForClass(ServerData);
 ServerDataSchema.plugin(paginate);
-ServerDataSchema.plugin(jsexpertProfiler.JsDbPerformanceMiddeleware)
+// ServerDataSchema.plugin(jsexpertProfiler.JsDbPerformanceMiddeleware)
 
