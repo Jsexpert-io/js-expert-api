@@ -5,8 +5,8 @@ import { UpdateDbDatumDto } from './dto/update-db-datum.dto';
 import { PorjectGuard } from 'src/auth/project.guard';
 import { ApiTags } from '@nestjs/swagger';
 
-@Controller('server-data')
-@ApiTags('server-data')
+@Controller('db-data')
+@ApiTags('db-data')
 
 @UseGuards(PorjectGuard)
 export class DbDataController {
