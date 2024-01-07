@@ -3,16 +3,68 @@ import { CreateServerDatumDto } from './dto/create-server-datum.dto';
 import { UpdateServerDatumDto } from './dto/update-server-datum.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { ServerDataDocument } from './entities/server-datum.entity';
-import { Model, PaginateModel } from 'mongoose';
+import mongoose, { Model, PaginateModel,Types } from 'mongoose';
 
 @Injectable()
 export class ServerDataService {
 
   findByEndpoint(_id: any, endpoint: string) {
-    return this.serverdataRepository.find({
-      project: _id,
-      'data.requestObject.path': endpoint
-    }).select(['data', 'createdAt'])
+    const projectId = String(_id);
+    console.log('projectId',projectId);
+
+    const pipeline = [
+      {
+          $match: {
+              project: projectId,
+              "data.requestObject.path": endpoint
+          }
+      },
+      {
+          $group: {
+              _id: "$data.requestObject.method",
+              totalCount: { $sum: 1 },
+              failedRequests: {
+                  $sum: {
+                      $cond: [
+                          { $gte: ["$data.responseObject.status", 400] },
+                          1,
+                          0
+                      ]
+                  }
+              },
+              passedRequests: {
+                  $sum: {
+                      $cond: [
+                          { $lt: ["$data.responseObject.status", 400] },
+                          1,
+                          0
+                      ]
+                  }
+              }
+          }
+      },
+      {
+          $group: {
+              _id: null,
+              totalRequests: { $sum: "$totalCount" },
+              totalFailedRequests: { $sum: "$failedRequests" },
+              totalPassedRequests: { $sum: "$passedRequests" },
+              detailsByMethod: {
+                  $push: {
+                      method: "$_id",
+                      count: "$totalCount",
+                      failedRequests: "$failedRequests",
+                      passedRequests: "$passedRequests"
+                  }
+              }
+          }
+      }
+  ];
+  
+    // so lets say i want to show graphs historgrams of the endpoint with number of request by method
+    const data = this.serverdataRepository.aggregate(pipeline)
+    return data;
+
 
   }
 
@@ -167,7 +219,6 @@ export class ServerDataService {
         $group: {
           _id: {
             endpoint: '$data.requestObject.path',
-            method: '$data.requestObject.method'
           },
           count: { $sum: 1 },
           avgDuration: { $avg: '$data.durationInMilliseconds' },
@@ -178,30 +229,6 @@ export class ServerDataService {
           minDuration: { $min: '$data.durationInMilliseconds' },
           latestRequestDate: { $max: '$createdAt' },
           avgMemoryUsage: { $avg: '$data.memoryUsage' },
-          successfulRequests: {
-            $sum: {
-              $cond: [
-                {
-                  $in: ['$data.responseObject.status', [200, 201, 202, 203, 204, 205, 206, 207, 208, 226]]
-                },
-                1,
-                0
-              ]
-            }
-          },
-          failedRequests: {
-            $sum: {
-              $cond: [
-                {
-                  $in: ['$data.responseObject.status',
-                    [400, 401, 402, 403,
-                      404, 405, 406, 407, 408, 409, 500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511]]
-                },
-                1,
-                0
-              ]
-            }
-          }
         }
       },
       {
