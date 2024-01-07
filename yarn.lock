@@ -2005,27 +2005,9 @@ body-parser@1.20.1:
     type-is "~1.6.18"
     unpipe "1.0.0"
 
-body-parser@1.20.2, body-parser@^1.20.0:
+body-parser@1.20.2, body-parser@^1.20.0, body-parser@^1.20.2:
   version "1.20.2"
   resolved "https://registry.npmjs.org/body-parser/-/body-parser-1.20.2.tgz"
-  integrity sha512-ml9pReCu3M61kGlqoTm2umSXTlRTuGTx0bfYj+uIUKKYycG5NtSbeetV3faSU6R7ajOPw0g/J1PvK4qNy7s5bA==
-  dependencies:
-    bytes "3.1.2"
-    content-type "~1.0.5"
-    debug "2.6.9"
-    depd "2.0.0"
-    destroy "1.2.0"
-    http-errors "2.0.0"
-    iconv-lite "0.4.24"
-    on-finished "2.4.1"
-    qs "6.11.0"
-    raw-body "2.5.2"
-    type-is "~1.6.18"
-    unpipe "1.0.0"
-
-body-parser@^1.20.2:
-  version "1.20.2"
-  resolved "https://registry.yarnpkg.com/body-parser/-/body-parser-1.20.2.tgz#6feb0e21c4724d06de7ff38da36dad4f57a747fd"
   integrity sha512-ml9pReCu3M61kGlqoTm2umSXTlRTuGTx0bfYj+uIUKKYycG5NtSbeetV3faSU6R7ajOPw0g/J1PvK4qNy7s5bA==
   dependencies:
     bytes "3.1.2"
@@ -4107,10 +4089,10 @@ jsesc@^2.5.1:
   resolved "https://registry.npmjs.org/jsesc/-/jsesc-2.5.2.tgz"
   integrity sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA==
 
-jsexpert-lib@^0.22.2:
-  version "0.22.2"
-  resolved "https://registry.yarnpkg.com/jsexpert-lib/-/jsexpert-lib-0.22.2.tgz#f2c1283bbdbbdda09e215584d5b582575d17a576"
-  integrity sha512-uVS59YrQRGXtnepWUR+9YgGDqNhqNK4wW34h66InN/kqvCru59b7xs/EOzGQmfkq8C0MBcY7fdn2DJrsHhACnw==
+jsexpert-lib@^0.22.17:
+  version "0.22.18"
+  resolved "https://registry.yarnpkg.com/jsexpert-lib/-/jsexpert-lib-0.22.18.tgz#d0ca95c8c74323e9599f2370d2c32608ab29a685"
+  integrity sha512-F1hClLd8Pk6pAnMpg7fvQBuO/kOBBYhFqZCmVfdmQZBZwy4AzB/MfnNJ6En5uuRs1ZcflcyOIAKZyzcg7OddHg==
   dependencies:
     axios "^1.4.0"
     got "^13.0.0"
