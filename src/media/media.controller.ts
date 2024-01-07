@@ -1,9 +1,8 @@
-import { Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Post, Req, Res } from '@nestjs/common';
 
-import * as sharp from 'sharp';
-import * as multer from 'multer';
-import { Request } from 'express';
 import { createHash } from 'crypto';
+import * as multer from 'multer';
+import * as sharp from 'sharp';
 
 import axios from 'axios';
 import { removeImages, s3 } from '../Utils/ImageService';
@@ -25,12 +24,9 @@ function initMiddleware(middleware: any) {
 }
 const multerAny = initMiddleware(upload.any());
 
-
-
 @Controller('media')
 export class MediaController {
   @Post('uploadImage/:entityName')
-
   async uploadImage(@Req() req: any, @Res() res) {
     await multerAny(req, res);
     const date = new Date().toISOString().slice(0, 16);
@@ -38,9 +34,8 @@ export class MediaController {
     randomSalt = randomSalt.toString();
     const hashable = [date, randomSalt].join('');
     const queryPath = req.query.queryPath;
-    let id = req.query.id || createHash('md5').update(hashable).digest('hex');
+    const id = req.query.id || createHash('md5').update(hashable).digest('hex');
 
-    
     const file: any = req.files[0];
     const extention = file.originalname.substring(
       file.originalname.lastIndexOf('.'),
@@ -56,21 +51,22 @@ export class MediaController {
       .split(' ')
       .join('-');
 
-      try {
-        console.log('====================================');
-        console.log(req.query.oldKey);
-        console.log('====================================');
-        if(req.query.oldKey){
-          await removeImages([{
+    try {
+      console.log('====================================');
+      console.log(req.query.oldKey);
+      console.log('====================================');
+      if (req.query.oldKey) {
+        await removeImages([
+          {
             key: req.query.oldKey,
-          }]);
-        }
-       
-      } catch (error) {
-        console.log('====================================');
-        console.log(error);
-        console.log('====================================');
+          },
+        ]);
       }
+    } catch (error) {
+      console.log('====================================');
+      console.log(error);
+      console.log('====================================');
+    }
 
     try {
       const sharpImage = await sharp(file.buffer, {
@@ -83,7 +79,7 @@ export class MediaController {
           quality: 100,
         })
         .toBuffer();
-        
+
       const metaData = await sharpImage.metadata();
       const data = await s3
         .upload({
@@ -93,29 +89,24 @@ export class MediaController {
           Body: orignalBuffer,
           Metadata: {
             key: fileName + '.webp',
-
           },
         })
         .promise();
       // const blob: BlobCorrected = req.files[0];
 
-
       return res.send({
-        
-        metaData:{
-          height:metaData.height,
-          width:metaData.width,
-          format  :metaData.format,
-          size  :metaData.size
-
-
+        metaData: {
+          height: metaData.height,
+          width: metaData.width,
+          format: metaData.format,
+          size: metaData.size,
         },
         bucketName: 'anbyservice',
-        key:data.Key,
-        etag:data.ETag,
+        key: data.Key,
+        etag: data.ETag,
         url: data.Location,
-        acpectRatio: (metaData.height / metaData.width),
-        mediaType: 'image'
+        acpectRatio: metaData.height / metaData.width,
+        mediaType: 'image',
       });
     } catch (error) {
       console.log(error);
@@ -141,7 +132,6 @@ export class MediaController {
     }
   }
   @Post('uploadVideo/:entityName')
- 
   async uploadVideo(@Req() req: any, @Res() res) {
     await multerAny(req, res);
     const date = new Date().toISOString().slice(0, 16);
@@ -182,12 +172,12 @@ export class MediaController {
         })
         .promise();
 
-      const largeUrl = (tempData.Location)
+      const largeUrl = tempData.Location;
       // download video from url and save it to s3 with axios
       console.log('largeUrl', largeUrl);
       const video = await axios.get(largeUrl, {
         responseType: 'arraybuffer',
-      })
+      });
       console.log(video.headers);
 
       const videoBufferNew = Buffer.from(video.data, 'base64');
@@ -203,10 +193,12 @@ export class MediaController {
         })
         .promise();
       //delete video from s3
-      await s3.deleteObject({
-        Bucket: 'anbyservice',
-        Key: tempData.Key,
-      }).promise();
+      await s3
+        .deleteObject({
+          Bucket: 'anbyservice',
+          Key: tempData.Key,
+        })
+        .promise();
       return res.send({
         ...data,
 
