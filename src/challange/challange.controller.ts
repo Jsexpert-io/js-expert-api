@@ -1,11 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { ChallangeService } from './challange.service';
 import { CreateChallangeDto } from './dto/create-challange.dto';
 import { UpdateChallangeDto } from './dto/update-challange.dto';
 
 @Controller('challange')
 export class ChallangeController {
-  constructor(private readonly challangeService: ChallangeService) {}
+  constructor(private readonly challangeService: ChallangeService) { }
 
   @Post()
   create(@Body() createChallangeDto: CreateChallangeDto) {
@@ -27,7 +35,10 @@ export class ChallangeController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateChallangeDto: UpdateChallangeDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateChallangeDto: UpdateChallangeDto,
+  ) {
     return this.challangeService.update(id, updateChallangeDto);
   }
 

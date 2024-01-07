@@ -1,11 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { UserCertificationService } from './usercertification.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { CreateUserCertificationDto } from './dto/create-usercertification.dto';
 import { UpdateUserCertificationDto } from './dto/update-usercertification.dto';
+import { UserCertificationService } from './usercertification.service';
 
 @Controller('usercertificate')
 export class UsercertificationController {
-  constructor(private readonly usercertificationService: UserCertificationService) {}
+  constructor(
+    private readonly usercertificationService: UserCertificationService,
+  ) { }
 
   @Post()
   create(@Body() createUsercertificationDto: CreateUserCertificationDto) {
@@ -18,7 +28,10 @@ export class UsercertificationController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUsercertificationDto: UpdateUserCertificationDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateUsercertificationDto: UpdateUserCertificationDto,
+  ) {
     return this.usercertificationService.update(id, updateUsercertificationDto);
   }
 

@@ -1,17 +1,18 @@
 import { Module } from '@nestjs/common';
-import { UserCertificationService } from './usercertification.service';
-import { UsercertificationController } from './usercertification.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserCertificationSchema } from './entities/usercertification.entity';
 import { DeveloperModule } from 'src/developer/developer.module';
+import { UserCertificationSchema } from './entities/usercertification.entity';
+import { UsercertificationController } from './usercertification.controller';
+import { UserCertificationService } from './usercertification.service';
 
 @Module({
-  imports:[
+  imports: [
     DeveloperModule,
-    MongooseModule.forFeature([{ name: 'usercertificate', schema:UserCertificationSchema }])
-
+    MongooseModule.forFeature([
+      { name: 'usercertificate', schema: UserCertificationSchema },
+    ]),
   ],
   controllers: [UsercertificationController],
-  providers: [UserCertificationService]
+  providers: [UserCertificationService],
 })
-export class UsercertificationModule {}
+export class UsercertificationModule { }

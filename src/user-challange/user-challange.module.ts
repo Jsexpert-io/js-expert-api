@@ -1,16 +1,18 @@
 import { Module } from '@nestjs/common';
-import { UserChallangesService } from './user-challange.service';
-import { UserChallangeController } from './user-challange.controller';
-import { DeveloperModule } from 'src/developer/developer.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { DeveloperModule } from 'src/developer/developer.module';
 import { UserChallangeSchema } from './entities/user-challange.entity';
+import { UserChallangeController } from './user-challange.controller';
+import { UserChallangesService } from './user-challange.service';
 
 @Module({
-  imports:[
-    MongooseModule.forFeature([{ name: 'userchallange', schema:UserChallangeSchema }]),
-    DeveloperModule
+  imports: [
+    MongooseModule.forFeature([
+      { name: 'userchallange', schema: UserChallangeSchema },
+    ]),
+    DeveloperModule,
   ],
   controllers: [UserChallangeController],
-  providers: [UserChallangesService]
+  providers: [UserChallangesService],
 })
-export class UserChallangeModule {}
+export class UserChallangeModule { }

@@ -1,7 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { UserSkillsService } from './user-skills.service';
-import {  CreateUserSkillDto } from './dto/create-user-skill.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
+import { CreateUserSkillDto } from './dto/create-user-skill.dto';
 import { UpdateUserSkillDto } from './dto/update-user-skill.dto';
+import { UserSkillsService } from './user-skills.service';
 
 @Controller('user-skills')
 export class UserSkillsController {
@@ -12,12 +20,10 @@ export class UserSkillsController {
     return this.userSkillsService.create(createUserSkillDto);
   }
 
-
   @Post('addUserSkill')
   addUserSkill(@Body() addDeveloperUserSkillDtos: CreateUserSkillDto[]) {
     return this.userSkillsService.addUserSkill(addDeveloperUserSkillDtos);
   }
-
 
   @Get('findByUser/:id')
   findByUser(@Param('id') id: string) {
@@ -29,14 +35,16 @@ export class UserSkillsController {
     return this.userSkillsService.findBySkill(id);
   }
 
-
   @Get('findByUserOnly/:id')
   findByUserOnly(@Param('id') id: string) {
     return this.userSkillsService.findByUserOnly(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserSkillDto: UpdateUserSkillDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateUserSkillDto: UpdateUserSkillDto,
+  ) {
     return this.userSkillsService.update(id, updateUserSkillDto);
   }
 

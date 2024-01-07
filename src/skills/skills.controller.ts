@@ -1,11 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { SkillsService } from './skills.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { CreateSkillDto } from './dto/create-skill.dto';
 import { UpdateSkillDto } from './dto/update-skill.dto';
+import { SkillsService } from './skills.service';
 
 @Controller('skills')
 export class SkillsController {
-  constructor(private readonly skillsService: SkillsService) {}
+  constructor(private readonly skillsService: SkillsService) { }
 
   @Post()
   create(@Body() createSkillDto: CreateSkillDto) {
@@ -16,7 +24,6 @@ export class SkillsController {
   findAll() {
     return this.skillsService.findAll();
   }
-
 
   @Get('findBySlug/:slug')
   findBySlug(@Param('slug') slug: string) {
