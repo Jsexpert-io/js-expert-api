@@ -12,9 +12,11 @@ import { CategoryModule } from './aibits/category/category.module';
 import { ConceptcardModule } from './aibits/conceptcard/conceptcard.module';
 import { ConceptsModule } from './aibits/concepts/concepts.module';
 import { SubcategoryModule } from './aibits/subcategory/subcategory.module';
+import { AuthenticationModule } from './authentication/authentication.module';
 import { ChallangeModule } from './challange/challange.module';
 import { DeveloperModule } from './developer/developer.module';
 import { MarketingUserModule } from './marketing-user/marketing-user.module';
+import { MediaModule } from './media/media.module';
 import { SkillsModule } from './skills/skills.module';
 import { UserChallangeModule } from './user-challange/user-challange.module';
 import { UserSkillsModule } from './user-skills/user-skills.module';
@@ -50,6 +52,8 @@ const mongoUrl = `mongodb+srv://admin:admin123@mongo-server.picscontest.com/jsex
     SkillsModule,
     UsercertificationModule,
     UserChallangeModule,
+    AuthenticationModule,
+    MediaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
