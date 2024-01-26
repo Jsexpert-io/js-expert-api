@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDbDatumDto } from './dto/create-db-datum.dto';
-import { UpdateDbDatumDto } from './dto/update-db-datum.dto';
 import { InjectModel } from '@nestjs/mongoose';
+
+import { CreateDbDatumDto } from './dto/create-db-datum.dto';
 import { DbDataDocument } from './entities/db-datum.entity';
-import { Model, PaginateModel } from 'mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class DbDataService {
@@ -99,18 +99,18 @@ export class DbDataService {
           }
         }
       },
-        // {
-        //   $project: {
-        //     _id: 0,
-        //     method: '$_id',
-        //     count: 1
-        //   }
-        // }
+      // {
+      //   $project: {
+      //     _id: 0,
+      //     method: '$_id',
+      //     count: 1
+      //   }
+      // }
     ])
   }
   getMemoryUsageTrend(_id: any, startDate: Date, endDate: Date) {
     return this.dbDataRepository.aggregate([
-      
+
       {
         $group: {
           _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
@@ -149,7 +149,7 @@ export class DbDataService {
 
   constructor(
     @InjectModel('dbdata')
-    private dbDataRepository: PaginateModel<DbDataDocument>,
+    private dbDataRepository: Model<DbDataDocument>,
   ) { }
   create(createServerDatumDto: CreateDbDatumDto, projectId: string) {
     return this.dbDataRepository.create({
@@ -181,8 +181,8 @@ export class DbDataService {
           avgDuration: { $avg: '$data.durationInMilliseconds' },
 
           latestRequestDate: { $max: '$createdAt' },
-    
-          
+
+
         }
       },
       {

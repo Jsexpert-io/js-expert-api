@@ -1,9 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { PorjectGuard } from 'src/auth/project.guard';
 import { DbDataService } from './db-data.service';
 import { CreateDbDatumDto } from './dto/create-db-datum.dto';
-import { UpdateDbDatumDto } from './dto/update-db-datum.dto';
-import { PorjectGuard } from 'src/auth/project.guard';
-import { ApiTags } from '@nestjs/swagger';
 
 @Controller('db-data')
 @ApiTags('db-data')
@@ -20,18 +19,18 @@ export class DbDataController {
   // https://api.jsexpert.io/server-data?sortBy=&orderBy=&page=1&limit=10&search=
   @Get()
   findAll(@Req() req: any,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
-    @Query('sortBy') sortBy: string = 'createdAt',
-    @Query('orderBy') orderBy: string = 'desc',
-    @Query('search') search: string = '',
+    @Query('page') page = 1,
+    @Query('limit') limit = 10,
+    @Query('sortBy') sortBy = 'createdAt',
+    @Query('orderBy') orderBy = 'desc',
+    @Query('search') search = '',
   ) {
     return this.serverDataService.findAllByProject(req?.project?._id,
       page, limit, sortBy, orderBy, search
     );
   }
 
-  
+
   @Get('findByEndpoint')
   findByEndpoint(@Req() req: any,
     @Query('endpoint') endpoint: string,
@@ -63,11 +62,11 @@ export class DbDataController {
     @Query('endDate') endDate: Date = new Date(),
 
   ) {
-    if(!startDate) startDate = new Date(new Date().setDate(new Date().getDate() - 30))
+    if (!startDate) startDate = new Date(new Date().setDate(new Date().getDate() - 30))
 
-    console.log(startDate,endDate)
+    console.log(startDate, endDate)
     return this.serverDataService.getMemoryUsageTrend(
-      req?.project?._id,startDate,endDate
+      req?.project?._id, startDate, endDate
     );
   }
   @Get('errorStatusCodeDitribution')

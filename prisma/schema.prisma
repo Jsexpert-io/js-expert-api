@@ -1,0 +1,8 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = "mongodb://root:123456@64.227.137.36:27017/jsexpert?authSource=admin&directConnection=true"
+}
