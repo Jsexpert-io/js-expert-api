@@ -29,12 +29,18 @@ export class TracesService {
     const spans = createTraceDto.resourceSpans[0].scopeSpans.map(span => {
       const scopeSpans = span.spans.filter(span => {
         if (span.attributes.length > 0) {
+          return true;
           const keys = span.attributes.map(attribute => attribute.key)
-          return keys.includes('http.method') && keys.includes('http.route')
+          return keys.includes('http.route') || keys.includes('http.status_code')
         }
       }).map(span => {
         const attributes = span.attributes.map(attribute => {
           const valueKey = Object.keys(attribute.value)[0]
+          if (attribute.key === 'http.request.body' || attribute.key === 'http.request.headers') {
+            return {
+              [attribute.key]: JSON.parse(attribute.value[valueKey]),
+            }
+          }
           return {
             [attribute.key]: attribute.value[valueKey],
           }
@@ -50,7 +56,7 @@ export class TracesService {
         spans: scopeSpans
       }
     }).map(a => a.spans).flat()
-    console.log(spans.length)
+
 
     return this.dbDataRepository.insertMany(spans)
   }
