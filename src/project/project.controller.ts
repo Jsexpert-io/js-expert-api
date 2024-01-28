@@ -1,10 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
-import { ProjectService } from './project.service';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/auth/auth.guard';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
-import { PorjectGuard } from 'src/auth/project.guard';
-import { AuthGuard } from 'src/auth/auth.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ProjectService } from './project.service';
 
 
 // "clientId": "0e7ef1ae-e832-456f-8c0e-6f005c01ffba",
@@ -17,16 +16,16 @@ export class ProjectController {
   constructor(private readonly projectService: ProjectService) { }
 
   @Post()
-  create(@Req() req , @Body() createProjectDto: CreateProjectDto) {
+  create(@Req() req, @Body() createProjectDto: CreateProjectDto) {
 
-    return this.projectService.create(createProjectDto,req.user._id);
+    return this.projectService.create(createProjectDto, req.user._id);
   }
 
 
   @Get('findMyProjects')
   findMyProjects(@Req() req) {
     const { user } = req
-    
+
     return this.projectService.findAllByUser(user._id);
   }
 

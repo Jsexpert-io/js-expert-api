@@ -1,27 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { UpdateTraceDto } from './dto/update-trace.dto';
-import { TraceDocument } from './entities/trace.entity';
+import { prisma } from 'src/Utils/DbService';
 
 @Injectable()
 export class TracesService {
-  constructor(
-    @InjectModel('trace')
-    private dbDataRepository: Model<TraceDocument>,
-  ) { }
+
   create(createTraceDto: {
     resourceSpans: {
       scopeSpans: {
-        spans: {
-          attributes: {
-            key: string,
-            value: {
-              stringValue: string
-            },
-            name: string
-          }[]
-        }[]
+        spans: any[]
       }[]
     }[]
   }, projectId: string) {
@@ -57,21 +43,42 @@ export class TracesService {
       }
     }).map(a => a.spans).flat()
 
-
-    return this.dbDataRepository.insertMany(spans)
+    return prisma.trace.createMany({
+      data: spans
+    })
   }
 
-  findAll() {
-    return `This action returns all traces`;
+  findByProjectId(projectId: string) {
+    return prisma.trace.findMany({
+      where: {
+        projectId: projectId
+      },
+      select: {
+        name: true,
+        createdAt: true,
+        startTimeUnixNano: true,
+        endTimeUnixNano: true,
+        kind: true,
+      }
+    })
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} trace`;
+  deleteByProjectId(projectId: string) {
+    return prisma.trace.deleteMany({
+      where: {
+        projectId: projectId
+      }
+    })
+  }
+  findOne(id: string) {
+    return prisma.trace.findUnique({
+      where: {
+        id
+      }
+
+    })
   }
 
-  update(id: number, updateTraceDto: UpdateTraceDto) {
-    return `This action updates a #${id} trace`;
-  }
 
   remove(id: number) {
     return `This action removes a #${id} trace`;

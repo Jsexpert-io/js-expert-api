@@ -1,7 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PorjectGuard } from 'src/auth/project.guard';
-import { UpdateTraceDto } from './dto/update-trace.dto';
 import { TracesService } from './traces.service';
 
 @ApiTags('v1/traces')
@@ -15,23 +14,21 @@ export class TracesController {
     return this.tracesService.create(createTraceDto, req.project._id);
   }
 
-  @Get()
-  findAll() {
-    return this.tracesService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.tracesService.findOne(+id);
+    return this.tracesService.findOne(id);
   }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTraceDto: UpdateTraceDto) {
-    return this.tracesService.update(+id, updateTraceDto);
+  @Get('findbyProject/:id')
+  findbyProject(@Param('id') id: string) {
+    return this.tracesService.findByProjectId(id);
   }
-
+  @Delete('deleteByProjectId/:id')
+  deleteByProjectId(@Param('id') id: string) {
+    return this.tracesService.deleteByProjectId(id);
+  }
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.tracesService.remove(+id);
   }
+
 }

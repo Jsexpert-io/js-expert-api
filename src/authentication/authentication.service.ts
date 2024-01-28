@@ -1,8 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { Hash, createHash } from 'crypto';
+import { createHash } from 'crypto';
+import { decode, sign, verify } from 'jsonwebtoken';
 import { SECRET_KEY, sendEmail } from 'src/Utils/EmailService';
 import { DeveloperService } from 'src/developer/developer.service';
-import { decode, sign, verify } from 'jsonwebtoken';
 
 
 @Injectable()
@@ -13,17 +13,17 @@ export class AuthenticationService {
       throw new UnauthorizedException('Invalid token')
     }
     const payload: any = decode(token)
-    const user = await this.userService.findOneBy({ id: payload.id })
+    const user = await this.developerService.findOneBy({ id: payload.id })
     if (user) {
       return user
     }
     throw new UnauthorizedException('Invalid token')
   }
-  constructor(private userService: DeveloperService) { }
+  constructor(private developerService: DeveloperService) { }
   async login({ email, password }: any) {
     const passwordHash = this.createInputHash(password)
     email = email.toLowerCase()
-    const user = await this.userService.findOneBy({
+    const user = await this.developerService.findOneBy({
       email, password: passwordHash
     })
     if (!user) {
@@ -48,29 +48,29 @@ export class AuthenticationService {
     const passwordHash = this.createInputHash(password)
     email = email.toLowerCase()
 
-    const isDuplicateUser = await this.userService.checkUserByEmail(email)
+    const isDuplicateUser = await this.developerService.checkUserByEmail(email)
     console.log(isDuplicateUser);
 
     if (isDuplicateUser) {
       throw new UnauthorizedException('User already exists')
     }
 
-    const user = await this.userService.create({ email, password: passwordHash, isEmailVerified: false })
+    const user = await this.developerService.create({ email, password: passwordHash, isEmailVerified: false })
 
-    const emailToken = `${user.id}-${user._id}-${Date.now()}`;
+    const emailToken = `${user.id}-${Date.now()}`;
     const emailTokenHash = this.createInputHash(emailToken)
-    await this.userService.update(user.id, { emailToken: emailTokenHash })
+    await this.developerService.update(user.id, { emailToken: emailTokenHash })
     await sendEmail(email, 'Verify your email',
       `<a href="${process.env.PUBLIC_API_URL}/authentication/verifyEmail?token=${emailTokenHash}">Click here to verify your email</a>`)
     return { id: user.id, isEmailVerified: user.isEmailVerified }
   }
 
   async verifyEmail(token: string) {
-    const user = await this.userService.findOneBy({ emailToken: token })
+    const user = await this.developerService.findOneBy({ emailToken: token })
     if (!user) {
       throw new UnauthorizedException('Invalid token')
     }
-    await this.userService.update(user.id, { isEmailVerified: true })
+    await this.developerService.update(user.id, { isEmailVerified: true })
     return {
       url: `${process.env.PUBLIC_APP_URL}/auth/login`
     }
@@ -80,9 +80,9 @@ export class AuthenticationService {
   //     return 'No user from google'
   //   }
   //   const user = req.user;
-  //   let dbUser: any = await this.userService.findByEmail(user.email)
+  //   let dbUser: any = await this.developerService.findByEmail(user.email)
   //   if (!dbUser) {
-  //     dbUser = await this.userService.create(user)
+  //     dbUser = await this.developerService.create(user)
   //   }
 
   //   return { url: `http://localhost:3000/auth/redirect?accessToken=${req.user.accessToken}&userId:${dbUser.id}` }
