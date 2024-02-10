@@ -39,7 +39,7 @@ export class UserService {
 
   async register(createUserDto: AuthDto) {
     // check if user exists
-    await prisma.user.deleteMany({})
+
     const user = await prisma.user.findUnique({ where: { email: createUserDto.email } });
     console.log(user)
     if (user) {
