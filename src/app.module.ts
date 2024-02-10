@@ -11,6 +11,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { DeveloperModule } from './developer/developer.module';
 import { ProjectModule } from './project/project.module';
 import { UserModule } from './user/user.module';
+import { MetricModule } from './server-data/v1/metric/metric.module';
 
 const mongoUrl = `mongodb://root:123456@64.227.137.36:27017/?appName=jsexpertDb&directConnection=true`;
 @Module({
@@ -24,6 +25,7 @@ const mongoUrl = `mongodb://root:123456@64.227.137.36:27017/?appName=jsexpertDb&
     MediaModule,
     TracesModule,
     DeveloperModule,
+    MetricModule,
   ],
   controllers: [AppController],
   providers: [AppService],
