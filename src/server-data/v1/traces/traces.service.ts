@@ -12,6 +12,7 @@ export class TracesService {
     }[]
   }, projectId: string) {
 
+    console.log('createTraceDto',projectId)
     const spans = createTraceDto.resourceSpans[0].scopeSpans.map(span => {
       const scopeSpans = span.spans.filter(span => {
         if (span.attributes.length > 0) {
@@ -34,7 +35,8 @@ export class TracesService {
         return {
           ...span,
           attributes: Object.assign({}, ...attributes),
-          project: projectId,
+            
+        projectId
         }
       })
       return {
@@ -80,7 +82,7 @@ export class TracesService {
   }
 
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} trace`;
   }
 }

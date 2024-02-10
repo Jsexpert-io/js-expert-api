@@ -28,13 +28,27 @@ export class ProjectService {
   async create(createprojectDto: CreateProjectDto, userId: string) {
     const slug = createprojectDto.name.split(' ').join('-').toLowerCase()
     const uniqueSlug = await this.createUniqueSlug(slug)
+    console.log({
+      ...createprojectDto,
+      isActive: true,
+      slug: uniqueSlug,
+      description: createprojectDto.description,
+      user: {
+        connect: {
+          id: userId
+        }
+      },
+      clientSecret: createInputHash(createprojectDto.name + userId + v4()),
+      clientId: v4()
+    })
+
     return prisma.project.create({
       data: {
         ...createprojectDto,
         isActive: true,
         slug: uniqueSlug,
         description: createprojectDto.description,
-        developer: {
+        user: {
           connect: {
             id: userId
           }
@@ -49,7 +63,7 @@ export class ProjectService {
   findAllByUser(userId: string) {
     return prisma.project.findMany({
       where: {
-        developer: {
+        user: {
           id: userId
         }
       },
@@ -57,6 +71,7 @@ export class ProjectService {
         name: true,
         id: true,
         description: true,
+        clientSecret: true,
         clientId: true,
         isActive: true
       }
@@ -76,13 +91,13 @@ export class ProjectService {
       where: {
         slug
       },
-      include: {
-
-        developer: {
+      select: {
+        clientId: true,
+        clientSecret: true,
+        name: true, slug: true,
+        user: {
           select: {
-            username: true,
-            name: true,
-            profilePicture: true
+            email: true
           }
         }
       }

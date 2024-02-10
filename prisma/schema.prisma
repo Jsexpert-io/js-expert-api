@@ -19,6 +19,7 @@ model User {
   isActive Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  projects Project[]
 }
 model Developer {
   id        String  @id @default(uuid())
@@ -26,7 +27,7 @@ model Developer {
   email     String  @unique
   isEmailVerified Boolean @default(false)
   profilePicture Json?
-  projects Project[]
+
   username String?
   bio String?
   coverPicture Json?
@@ -42,7 +43,7 @@ model Project {
   clientSecret String @unique
   userId String
   slug String @unique
-  developer Developer @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id])
   isActive Boolean
   traces Trace[]
 
@@ -53,19 +54,21 @@ model Project {
 model Trace {
   id        String  @id @default(uuid())
   name      String
-  kind String
-  parentSpanId String 
-  startTimeUnixNano String
-  endTimeUnixNano String
+  traceId String 
+  spanId String? 
+  kind Int
+  parentSpanId String? 
+  startTimeUnixNano String?
+  endTimeUnixNano String?
   attributes Json?
-  droppedAttributesCount String
+  droppedAttributesCount Int?
   events Json?
-  droppedEventsCount String
+  droppedEventsCount Int?
   links Json?
-  droppedLinksCount String
+  droppedLinksCount Int?
   projectId String
   project Project @relation(fields: [projectId], references: [id])
-
+status  Json?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

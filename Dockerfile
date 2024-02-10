@@ -9,6 +9,7 @@ RUN npm config set registry https://registry.npmjs.org/
 
 RUN  npm install  --verbose -f
 COPY . .
+RUN npx prisma generate
 RUN npm run build 
 
 

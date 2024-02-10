@@ -11,7 +11,7 @@ export class TracesController {
 
   @Post()
   create(@Body() createTraceDto: any, @Req() req: any) {
-    return this.tracesService.create(createTraceDto, req.project._id);
+    return this.tracesService.create(createTraceDto, req.project.id);
   }
 
   @Get(':id')
@@ -28,7 +28,7 @@ export class TracesController {
   }
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.tracesService.remove(+id);
+    return this.tracesService.remove(id);
   }
 
 }

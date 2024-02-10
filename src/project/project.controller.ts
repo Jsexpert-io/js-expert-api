@@ -17,8 +17,8 @@ export class ProjectController {
 
   @Post()
   create(@Req() req, @Body() createProjectDto: CreateProjectDto) {
-
-    return this.projectService.create(createProjectDto, req.user._id);
+    console.log(createProjectDto, req.user)
+    return this.projectService.create(createProjectDto, req.user.id);
   }
 
 
