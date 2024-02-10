@@ -11,18 +11,24 @@ export class MetricService {
     }[]
 
   }, projectId: string) {
-    const metrices = createMetricDto.resourceMetrics.map(metric => metric.scopeMetrics).flat();
+    const metrices = createMetricDto.resourceMetrics.map(metric => metric.scopeMetrics?.map(a => a.metrics)?.flat()).flat();
     if (metrices.length === 0)
       return null;
-    return prisma.metric.create({
-      data: {
-        content: { metrices },
-        project: {
-          connect: {
-            id: projectId
-          }
+
+    console.log('createMetricDto', metrices)
+    return prisma.metric.createMany({
+      data: metrices.map(metric => {
+        const { name, description, unit, ...content } = metric;
+        const dataPoints = content?.sum?.dataPoints || content?.gauge?.dataPoints || content?.histogram?.dataPoints ||
+          content?.summary?.dataPoints;
+        return {
+          name,
+          description,
+          unit,
+          content,
+          projectId
         }
-      }
+      })
     })
   }
 

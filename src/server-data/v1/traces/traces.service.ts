@@ -1,53 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { prisma } from 'src/Utils/DbService';
+import { CreateSpans } from './traceUtility';
 
 @Injectable()
 export class TracesService {
 
-  create(createTraceDto: {
-    resourceSpans: {
-      scopeSpans: {
-        spans: any[]
-      }[]
-    }[]
+  async create(createTraceDto: {
+    resourceSpans: any[]
   }, projectId: string) {
-
-    console.log('createTraceDto',projectId)
-    const spans = createTraceDto.resourceSpans[0].scopeSpans.map(span => {
-      const scopeSpans = span.spans.filter(span => {
-        if (span.attributes.length > 0) {
-          return true;
-          const keys = span.attributes.map(attribute => attribute.key)
-          return keys.includes('http.route') || keys.includes('http.status_code')
-        }
-      }).map(span => {
-        const attributes = span.attributes.map(attribute => {
-          const valueKey = Object.keys(attribute.value)[0]
-          if (attribute.key === 'http.request.body' || attribute.key === 'http.request.headers') {
-            return {
-              [attribute.key]: JSON.parse(attribute.value[valueKey]),
-            }
-          }
-          return {
-            [attribute.key]: attribute.value[valueKey],
-          }
-        })
-        return {
-          ...span,
-          attributes: Object.assign({}, ...attributes),
-            
-        projectId
-        }
-      })
-      return {
-        ...span,
-        spans: scopeSpans
-      }
-    }).map(a => a.spans).flat()
-
-    return prisma.trace.createMany({
-      data: spans
-    })
+    return CreateSpans(createTraceDto, projectId)
   }
 
   findByProjectId(projectId: string) {
@@ -58,9 +19,7 @@ export class TracesService {
       select: {
         name: true,
         createdAt: true,
-        startTimeUnixNano: true,
-        endTimeUnixNano: true,
-        kind: true,
+
       }
     })
   }

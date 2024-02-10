@@ -51,32 +51,34 @@ model Project {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
- 
-model Trace {
-  id        String  @id @default(uuid())
-  name      String
-  traceId String 
-  spanId String? 
-  kind Int
-  parentSpanId String? 
-  startTimeUnixNano String?
-  endTimeUnixNano String?
-  attributes Json?
-  droppedAttributesCount Int?
-  events Json?
-  droppedEventsCount Int?
-  links Json?
-  droppedLinksCount Int?
-  projectId String
-  project Project @relation(fields: [projectId], references: [id])
-status  Json?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+ model TraceSpan {
+  id                      String     @id @default(uuid())
+  name                    String
+  traceId                 String?    // Null for root trace, non-null for spans to reference their trace
+  parentSpanId            String?    // Null for traces and root spans, non-null for child spans
+  kind                    Int?       // Null for trace, non-null for spans
+  startTimeUnixNano       String?    // Optional for both traces and spans
+  endTimeUnixNano         String?    // Optional for both traces and spans
+  attributes              Json?      // Optional for both traces and spans
+  droppedAttributesCount  Int?       // Optional for both traces and spans
+  events                  Json?      // Optional for both traces and spans
+  droppedEventsCount      Int?       // Optional for both traces and spans
+  links                   Json?      // Optional for both traces and spans
+  droppedLinksCount       Int?       // Optional for both traces and spans
+  status                  Json?      // Optional for both traces and spans
+  projectId               String?    // Only relevant for root traces
+  createdAt               DateTime   @default(now())
+  updatedAt               DateTime   @updatedAt
+  children                TraceSpan[] @relation("TraceSpanToTraceSpan", references: [id])
+  parent                  TraceSpan?  @relation("TraceSpanToTraceSpan", fields: [parentSpanId], references: [id])
 }
 
 model Metric {
   id        String  @id @default(uuid())
    content Json?
+   name String
+   description String
+   unit String
   projectId String
   project Project @relation(fields: [projectId], references: [id])
   createdAt DateTime @default(now())
