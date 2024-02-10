@@ -1,42 +1,27 @@
-{
-    "http.url": "http://localhost:3002/6ati4m/6ati4m",
-    "http.host": "localhost:3002",
-    "http.flavor": "1.1",
-    "http.method": "POST",
-    "http.target": "/6ati4m/6ati4m",
-    "net.peer.ip": "127.0.0.1",
-    "process.pid": 147723,
-    "service.name": "Js-expert-sample-server",
-    "net.peer.name": "localhost",
-    "net.peer.port": 3002,
-    "net.transport": "ip_tcp",
-    "process.owner": "neeraj",
-    "process.command": "/home/neeraj/works/jsexper/jslib/jsexpert-client-api/dist/main",
-    "http.status_code": 400,
-    "http.status_text": "BAD REQUEST",
-    "telemetry.sdk.name": "opentelemetry",
-    "process.command_args": {
-        "values": [
+[
+    {
+        "name": "exception",
+        "attributes": [
             {
-                "stringValue": "/home/neeraj/.nvm/versions/node/v20.11.0/bin/node"
+                "key": "exception.type",
+                "value": {
+                    "stringValue": "Error"
+                }
             },
             {
-                "stringValue": "-r"
+                "key": "exception.message",
+                "value": {
+                    "stringValue": "This is an exception"
+                }
             },
             {
-                "stringValue": "source-map-support/register"
-            },
-            {
-                "stringValue": "/home/neeraj/works/jsexper/jslib/jsexpert-client-api/dist/main"
+                "key": "exception.stacktrace",
+                "value": {
+                    "stringValue": "Error: This is an exception\n    at AppController.getHello (/home/neeraj/works/jsexper/jslib/jsexpert-client-api/src/app.controller.ts:82:23)\n    at /home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/@nestjs/core/router/router-execution-context.js:38:29\n    at InterceptorsConsumer.intercept (/home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/@nestjs/core/interceptors/interceptors-consumer.js:11:20)\n    at /home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/@nestjs/core/router/router-execution-context.js:46:60\n    at /home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/@nestjs/core/router/router-proxy.js:9:23\n    at Layer.handle [as handle_request] (/home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/express/lib/router/layer.js:95:5)\n    at next (/home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/express/lib/router/route.js:144:13)\n    at Route.dispatch (/home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/express/lib/router/route.js:114:3)\n    at /home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/@opentelemetry/instrumentation-express/src/instrumentation.ts:277:33\n    at Layer.handle [as handle_request] (/home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/express/lib/router/layer.js:95:5)"
+                }
             }
-        ]
-    },
-    "process.runtime.name": "nodejs",
-    "telemetry.sdk.version": "1.18.1",
-    "telemetry.sdk.language": "nodejs",
-    "process.executable.name": "/home/neeraj/.nvm/versions/node/v20.11.0/bin/node",
-    "process.executable.path": "/home/neeraj/.nvm/versions/node/v20.11.0/bin/node",
-    "process.runtime.version": "20.11.0",
-    "process.runtime.description": "Node.js",
-    "http.response_content_length_uncompressed": 25
-}
+        ],
+        "timeUnixNano": "1707585168555672533",
+        "droppedAttributesCount": 0
+    }
+]

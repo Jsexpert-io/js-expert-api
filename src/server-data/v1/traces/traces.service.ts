@@ -12,7 +12,7 @@ export class TracesService {
   }
 
   findByProjectId(projectId: string) {
-    return prisma.trace.findMany({
+    return prisma.traceSpan.findMany({
       where: {
         projectId: projectId
       },
@@ -25,14 +25,14 @@ export class TracesService {
   }
 
   deleteByProjectId(projectId: string) {
-    return prisma.trace.deleteMany({
+    return prisma.traceSpan.deleteMany({
       where: {
         projectId: projectId
       }
     })
   }
   findOne(id: string) {
-    return prisma.trace.findUnique({
+    return prisma.traceSpan.findUnique({
       where: {
         id
       }

@@ -45,7 +45,7 @@ model Project {
   slug String @unique
   user User @relation(fields: [userId], references: [id])
   isActive Boolean
-  traces Trace[]
+  traces TraceSpan[]
   metrics Metric[]
 
   createdAt DateTime @default(now())
@@ -54,7 +54,9 @@ model Project {
  model TraceSpan {
   id                      String     @id @default(uuid())
   name                    String
+  scopeName               String?
   traceId                 String?    // Null for root trace, non-null for spans to reference their trace
+  spanId                  String   @unique()    // Null for traces, non-null for spans
   parentSpanId            String?    // Null for traces and root spans, non-null for child spans
   kind                    Int?       // Null for trace, non-null for spans
   startTimeUnixNano       String?    // Optional for both traces and spans
@@ -67,10 +69,11 @@ model Project {
   droppedLinksCount       Int?       // Optional for both traces and spans
   status                  Json?      // Optional for both traces and spans
   projectId               String?    // Only relevant for root traces
+  project                 Project?   @relation(fields: [projectId], references: [id])
   createdAt               DateTime   @default(now())
   updatedAt               DateTime   @updatedAt
-  children                TraceSpan[] @relation("TraceSpanToTraceSpan", references: [id])
-  parent                  TraceSpan?  @relation("TraceSpanToTraceSpan", fields: [parentSpanId], references: [id])
+  children                TraceSpan[] @relation("TraceSpanToTraceSpan")
+  parent                  TraceSpan?  @relation("TraceSpanToTraceSpan", fields: [parentSpanId], references: [spanId])
 }
 
 model Metric {
