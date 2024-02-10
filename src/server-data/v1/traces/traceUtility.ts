@@ -1,5 +1,30 @@
-import { prisma } from "src/Utils/DbService"
+import { prisma } from "src/Utils/DbService";
+function sortWithHierarchy(data) {
+    // Create a map to easily access children based on parentSpanId
+    const map = new Map();
+    data.forEach(item => {
+        if (!map.has(item.parentSpanId)) {
+            map.set(item.parentSpanId, []);
+        }
+        map.get(item.parentSpanId).push(item);
+    });
 
+    // Recursive function to get items and their children
+    function getItemsWithChildren(parentSpanId) {
+        const items = map.get(parentSpanId) || [];
+        let sortedItems = [];
+        items.forEach(item => {
+            // Add the parent item
+            sortedItems.push(item);
+            // Recursively add children of the current item
+            sortedItems = sortedItems.concat(getItemsWithChildren(item.spanId));
+        });
+        return sortedItems;
+    }
+
+    // Start with undefined parentSpanId to get top-level parents first
+    return getItemsWithChildren(undefined);
+}
 
 export const CreateSpans = async (createTraceDto, projectId) => {
     // first we need to create a trace
@@ -59,28 +84,21 @@ export const CreateSpans = async (createTraceDto, projectId) => {
                     projectId
                 }
             }).flat()
-            // arrange them in the correct order based on the parentSpanId and spanId such that the parentSpanId comes first
-            .sort((a, b) => {
-                if (a.parentSpanId === b.spanId) {
-                    return 1
-                }
-                return -1
-            })
+        // arrange them in the correct order based on the parentSpanId and spanId such that the parentSpanId comes first
+
 
         return scopeSpans
     }).flat()
-    console.log('spans', {
-        data: spans?.map(a => {
-            return {
-                spanId: a.spanId,
-                parentSpanId: a.parentSpanId,
-            }
-        })
-
-    })
+    const sortedSpans = sortWithHierarchy(spans)
+    console.log('sortedSpans', sortedSpans?.map(a => {
+        return {
+            spanId: a.spanId,
+            parentSpanId: a.parentSpanId,
+        }
+    }))
     //return true
     return prisma.traceSpan.createMany({
-        data: spans?.map(a => {
+        data: sortedSpans?.map(a => {
             return {
                 ...a
             }
