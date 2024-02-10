@@ -1,14 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { prisma } from 'src/Utils/DbService';
-import { CreateMetricDto } from './dto/create-metric.dto';
 import { UpdateMetricDto } from './dto/update-metric.dto';
 
 @Injectable()
 export class MetricService {
-  create(createMetricDto: CreateMetricDto, projectId: string) {
+  create(createMetricDto: {
+
+    resourceMetrics: {
+      scopeMetrics: any[]
+    }[]
+
+  }, projectId: string) {
+    const metrices = createMetricDto.resourceMetrics.map(metric => metric.scopeMetrics).flat();
+    if (metrices.length === 0)
+      return null;
     return prisma.metric.create({
       data: {
-        content: createMetricDto,
+        content: { metrices },
         project: {
           connect: {
             id: projectId
