@@ -5,23 +5,23 @@
             {
                 "key": "exception.type",
                 "value": {
-                    "stringValue": "Error"
+                    "stringValue": "NotFoundException"
                 }
             },
             {
                 "key": "exception.message",
                 "value": {
-                    "stringValue": "This is an exception"
+                    "stringValue": "Cannot GET /fxdze7?JsDevreqDate=2024-02-13T21:54:09.801Z"
                 }
             },
             {
                 "key": "exception.stacktrace",
                 "value": {
-                    "stringValue": "Error: This is an exception\n    at AppController.getHello (/home/neeraj/works/jsexper/jslib/jsexpert-client-api/src/app.controller.ts:82:23)\n    at /home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/@nestjs/core/router/router-execution-context.js:38:29\n    at InterceptorsConsumer.intercept (/home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/@nestjs/core/interceptors/interceptors-consumer.js:11:20)\n    at /home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/@nestjs/core/router/router-execution-context.js:46:60\n    at /home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/@nestjs/core/router/router-proxy.js:9:23\n    at Layer.handle [as handle_request] (/home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/express/lib/router/layer.js:95:5)\n    at next (/home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/express/lib/router/route.js:144:13)\n    at Route.dispatch (/home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/express/lib/router/route.js:114:3)\n    at /home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/@opentelemetry/instrumentation-express/src/instrumentation.ts:277:33\n    at Layer.handle [as handle_request] (/home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/express/lib/router/layer.js:95:5)"
+                    "stringValue": "NotFoundException: Cannot GET /fxdze7?JsDevreqDate=2024-02-13T21:54:09.801Z\n    at callback (/home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/@nestjs/core/router/routes-resolver.js:77:19)\n    at /home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/@nestjs/core/router/router-proxy.js:9:23\n    at /home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/@opentelemetry/instrumentation-express/src/instrumentation.ts:208:27\n    at Layer.handle [as handle_request] (/home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/express/lib/router/layer.js:95:5)\n    at trim_prefix (/home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/express/lib/router/index.js:328:13)\n    at /home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/express/lib/router/index.js:286:9\n    at Function.process_params (/home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/express/lib/router/index.js:346:12)\n    at next (/home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/express/lib/router/index.js:280:10)\n    at urlencodedParser (/home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/body-parser/lib/types/urlencoded.js:91:7)\n    at /home/neeraj/works/jsexper/jslib/jsexpert-client-api/node_modules/@opentelemetry/instrumentation-express/src/instrumentation.ts:208:27"
                 }
             }
         ],
-        "timeUnixNano": "1707585168555672533",
+        "timeUnixNano": "1707588102804814230",
         "droppedAttributesCount": 0
     }
 ]

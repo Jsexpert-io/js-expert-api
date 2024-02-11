@@ -8,6 +8,7 @@ export class TracesService {
   async create(createTraceDto: {
     resourceSpans: any[]
   }, projectId: string) {
+
     return CreateSpans(createTraceDto, projectId)
   }
 

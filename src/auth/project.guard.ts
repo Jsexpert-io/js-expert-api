@@ -12,7 +12,8 @@ export class PorjectGuard implements CanActivate {
     async canActivate(context: ExecutionContext) {
         const request = context.switchToHttp().getRequest();
         const { clientid, clientsecret } = request.headers;
-
+        console.log('clientid', clientid);
+        console.log('clientsecret', clientsecret);
         if (!clientid || !clientsecret) {
             throw new UnauthorizedException('Enter valid clientId and clientSecret');
         }

@@ -41,7 +41,7 @@ export const CreateSpans = async (createTraceDto, projectId) => {
     // })
 
     // then we need to create the spans
-
+    await prisma.traceSpan.deleteMany({})
     const resourceAttributes = createTraceDto?.resourceSpans[0]?.resource?.attributes
 
     const spans = createTraceDto.resourceSpans?.map(rs => {
