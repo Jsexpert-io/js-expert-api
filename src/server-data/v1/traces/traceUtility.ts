@@ -1,4 +1,6 @@
 import { prisma } from "src/Utils/DbService";
+import { chOrm } from "src/Utils/clickhouseDbSetup";
+import { traceTableSchema } from "./clickHouseDto/traceModel";
 function sortWithHierarchy(data) {
     // Create a map to easily access children based on parentSpanId
     const map = new Map();
@@ -27,20 +29,7 @@ function sortWithHierarchy(data) {
 }
 
 export const CreateSpans = async (createTraceDto, projectId) => {
-    // first we need to create a trace
-    // const trace = await prisma.traceSpan.create({
-    //     data: {
-    //         name: createTraceDto.name,
-    //         traceId: createTraceDto.traceId,
-    //         project: {
-    //             connect: {
-    //                 id: projectId
-    //             }
-    //         }
-    //     }
-    // })
 
-    // then we need to create the spans
     await prisma.traceSpan.deleteMany({})
     const resourceAttributes = createTraceDto?.resourceSpans[0]?.resource?.attributes
 
@@ -97,11 +86,16 @@ export const CreateSpans = async (createTraceDto, projectId) => {
         }
     }))
     //return true
-    return prisma.traceSpan.createMany({
-        data: sortedSpans?.map(a => {
-            return {
-                ...a
-            }
+    const TraceClickHouseModel = await chOrm.model(traceTableSchema)
+    const spanPromise = sortedSpans?.map(project => {
+        return TraceClickHouseModel.create({
+            ...project as any,
+            attributes: JSON.stringify(project.attributes),
+            events: JSON.stringify(project.events),
+            links: JSON.stringify(project.links),
+            status: JSON.stringify(project.status),
+
         })
     })
+    return Promise.all(spanPromise)
 }

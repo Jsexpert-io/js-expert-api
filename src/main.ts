@@ -4,11 +4,17 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import 'express-async-errors';
+import { chOrm } from './Utils/clickhouseDbSetup';
 import { AppModule } from './app.module';
+import { traceTableSchema } from './server-data/v1/traces/clickHouseDto/traceModel';
 
+async function setupTables() {
+  await chOrm.autoCreateTableSql('trace_data', traceTableSchema)
+}
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  await chOrm.createDatabase()
+  await setupTables()
   const config = new DocumentBuilder()
     .setTitle('Js Analyzer')
     .setDescription('The Js Analyzer API Description')

@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post, Req, UseGuards } from '@nes
 import { ApiTags } from '@nestjs/swagger';
 import { PorjectGuard } from 'src/auth/project.guard';
 import { TracesService } from './traces.service';
-
+// je1Q_lKI7Iku0
 @ApiTags('v1/traces')
 @Controller('v1/traces')
 @UseGuards(PorjectGuard)
