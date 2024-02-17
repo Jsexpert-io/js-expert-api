@@ -26,9 +26,17 @@ function sortWithHierarchy(data) {
     // Start with undefined parentSpanId to get top-level parents first
     return getItemsWithChildren(undefined);
 }
-
+async function setupTables() {
+    await chOrm.autoCreateTableSql('trace_data', traceTableSchema)
+}
 export const CreateSpans = async (createTraceDto, projectId) => {
     console.log('createTraceDto', createTraceDto)
+    try {
+        await chOrm.createDatabase()
+        await setupTables()
+    } catch (error) {
+        console.log('Error while creating tables', error)
+    }
     //await prisma.traceSpan.deleteMany({})
     const resourceAttributes = createTraceDto?.resourceSpans[0]?.resource?.attributes
 
