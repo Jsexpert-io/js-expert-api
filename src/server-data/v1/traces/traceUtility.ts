@@ -86,19 +86,25 @@ export const CreateSpans = async (createTraceDto, projectId) => {
         }
     }))
     //return true
-    const TraceClickHouseModel = await chOrm.model(traceTableSchema)
-    const spanPromise = sortedSpans?.map(project => {
-        return TraceClickHouseModel.create({
-            ...project as any,
-            parentSpanId: project.parentSpanId || '',
-            attributes: JSON.stringify(project.attributes),
-            events: JSON.stringify(project.events),
-            links: JSON.stringify(project.links),
-            status: JSON.stringify(project.status),
+    try {
 
+
+        const TraceClickHouseModel = await chOrm.model(traceTableSchema)
+        const spanPromise = sortedSpans?.map(project => {
+            return TraceClickHouseModel.create({
+                ...project as any,
+                parentSpanId: project.parentSpanId || '',
+                attributes: JSON.stringify(project.attributes),
+                events: JSON.stringify(project.events),
+                links: JSON.stringify(project.links),
+                status: JSON.stringify(project.status),
+
+            })
         })
-    })
-    return Promise.all(spanPromise).catch(e => {
-        console.log('spanPromise error', e)
-    })
+        return Promise.all(spanPromise).catch(e => {
+            console.log('spanPromise error', e)
+        })
+    } catch (error) {
+        console.log('spanPromise  spanPromise', error)
+    }
 }
