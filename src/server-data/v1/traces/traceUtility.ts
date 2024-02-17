@@ -98,5 +98,7 @@ export const CreateSpans = async (createTraceDto, projectId) => {
 
         })
     })
-    return Promise.all(spanPromise)
+    return Promise.all(spanPromise).catch(e => {
+        console.log('spanPromise error', e)
+    })
 }
