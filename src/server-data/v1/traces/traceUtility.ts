@@ -90,6 +90,7 @@ export const CreateSpans = async (createTraceDto, projectId) => {
     const spanPromise = sortedSpans?.map(project => {
         return TraceClickHouseModel.create({
             ...project as any,
+            parentSpanId: project.parentSpanId || '',
             attributes: JSON.stringify(project.attributes),
             events: JSON.stringify(project.events),
             links: JSON.stringify(project.links),
