@@ -13,8 +13,13 @@ async function setupTables() {
 }
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await chOrm.createDatabase()
-  await setupTables()
+  try {
+    await chOrm.createDatabase()
+    await setupTables()
+  } catch (error) {
+    console.log('Error while creating tables', error)
+  }
+
   const config = new DocumentBuilder()
     .setTitle('Js Analyzer')
     .setDescription('The Js Analyzer API Description')
