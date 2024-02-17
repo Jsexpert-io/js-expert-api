@@ -4,6 +4,7 @@ import {
     Injectable,
     UnauthorizedException,
 } from '@nestjs/common';
+
 import { ProjectService } from 'src/project/project.service';
 
 @Injectable()
@@ -19,6 +20,7 @@ export class PorjectGuard implements CanActivate {
         }
 
         const project = await this.projectService.findByClientId(clientid);
+        console.log('project', project);
         if (!project) {
             throw new UnauthorizedException('Enter valid clientId and clientSecret');
         }

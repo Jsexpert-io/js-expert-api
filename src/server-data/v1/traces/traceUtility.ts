@@ -1,4 +1,3 @@
-import { prisma } from "src/Utils/DbService";
 import { chOrm } from "src/Utils/clickhouseDbSetup";
 import { traceTableSchema } from "./clickHouseDto/traceModel";
 function sortWithHierarchy(data) {
@@ -29,8 +28,8 @@ function sortWithHierarchy(data) {
 }
 
 export const CreateSpans = async (createTraceDto, projectId) => {
-
-    await prisma.traceSpan.deleteMany({})
+    console.log('createTraceDto', createTraceDto)
+    //await prisma.traceSpan.deleteMany({})
     const resourceAttributes = createTraceDto?.resourceSpans[0]?.resource?.attributes
 
     const spans = createTraceDto.resourceSpans?.map(rs => {
@@ -101,9 +100,10 @@ export const CreateSpans = async (createTraceDto, projectId) => {
 
             })
         })
-        return Promise.all(spanPromise).catch(e => {
+        const res = await Promise.all(spanPromise).catch(e => {
             console.log('spanPromise error', e)
         })
+        console.log('spanPromise res', res)
     } catch (error) {
         console.log('spanPromise  spanPromise', error)
     }
