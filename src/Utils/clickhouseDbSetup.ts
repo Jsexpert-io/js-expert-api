@@ -7,8 +7,8 @@ export const chOrm = ClickhouseOrm({
     },
     debug: true,
     client: {
-        url: "64.227.137.36",
-        port: "8123",
+        url: process.env.CLICKHOUSE_URL,
+        port: process.env.CLICKHOUSE_PORT,
         // basicAuth: {
         //     username: "default",
         //     password: "",
