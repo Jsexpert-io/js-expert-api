@@ -22,7 +22,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Js Analyzer')
     .setDescription('The Js Analyzer API Description')
-    .setVersion('2.3')
+    .setVersion('2.4')
     .addTag('js-analyzer')
     .addBearerAuth()
     .build();
