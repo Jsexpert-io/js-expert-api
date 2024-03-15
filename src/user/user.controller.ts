@@ -1,13 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { UserService } from './user.service';
-import { AuthDto } from './dto/create-user.dto';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthDto } from './dto/create-user.dto';
+import { UserService } from './user.service';
 
 
 @Controller('user')
 @ApiTags('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Post('register')
   register(@Body() createUserDto: AuthDto) {
@@ -18,8 +18,9 @@ export class UserController {
   login(@Body() createUserDto: AuthDto) {
     return this.userService.login(createUserDto);
   }
-  @Get('verify/:id-:uniqueKey')
-  verify(@Param('id') id: string, @Param('uniqueKey') uniqueKey: string) {
+  @Get('verify/:id_uniqueKey')
+  verify(@Param('id_uniqueKey') id_uniqueKey: string) {
+    const [id, uniqueKey] = id_uniqueKey.split('_');
     return this.userService.verify(id, uniqueKey);
   }
 }

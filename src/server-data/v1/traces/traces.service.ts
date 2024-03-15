@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { prisma } from 'src/Utils/DbService';
+import { chOrm } from 'src/Utils/clickhouseDbSetup';
+import { traceTableSchema } from './clickHouseDto/traceModel';
 import { CreateSpans } from './traceUtility';
 
 @Injectable()
@@ -12,7 +14,9 @@ export class TracesService {
     return CreateSpans(createTraceDto, projectId)
   }
 
-  findByProjectId(projectId: string) {
+  async findByProjectId(projectId: string) {
+    const traceClickHouseModel = await chOrm.model(traceTableSchema)
+    return traceClickHouseModel.find({ where: `projectId=${projectId}` })
     return prisma.traceSpan.findMany({
       where: {
         projectId: projectId

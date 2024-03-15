@@ -18,6 +18,13 @@ export class TracesController {
   findOne(@Param('id') id: string) {
     return this.tracesService.findOne(id);
   }
+  @Get()
+  findbyProjectTraces(
+    @Req() req: any
+  ) {
+    return this.tracesService.findByProjectId(req.project.id);
+  }
+
   @Get('findbyProject/:id')
   findbyProject(@Param('id') id: string) {
     return this.tracesService.findByProjectId(id);

@@ -10,7 +10,7 @@ import { AuthDto } from './dto/create-user.dto';
 @Injectable({})
 export class UserService {
   async verify(id: string, uniqueKey: string) {
-
+    console.log('id', id, uniqueKey)
     const user = await prisma.user.findUnique({
       where: {
         id, uniqueKey
@@ -62,7 +62,7 @@ export class UserService {
 
     await sendEmail(createUserDto.email, 'Verify your email', `
     <h1>Verify your email</h1>
-    <p>Click <a href="https://api.jsexpert.io/user/verify/${newUser.id}-${uniqueKey}">here</a> to verify your email</p>
+    <p>Click <a href="https://api.jsexpert.io/user/verify/${newUser.id}_${uniqueKey}">here</a> to verify your email</p>
     `);
     return {
       message: 'User created successfully',
