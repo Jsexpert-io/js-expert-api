@@ -1,5 +1,3 @@
-import { chOrm } from "src/Utils/clickhouseDbSetup";
-import { traceTableSchema } from "./clickHouseDto/traceModel";
 function sortWithHierarchy(data) {
     // Create a map to easily access children based on parentSpanId
     const map = new Map();
@@ -26,9 +24,24 @@ function sortWithHierarchy(data) {
     // Start with undefined parentSpanId to get top-level parents first
     return getItemsWithChildren(undefined);
 }
+type CreateTraceDto = {
+    resourceSpans: {
+        resource: {
+            attributes
+        },
+        scopeSpans: {
+            spans: {
+                traceId: string,
+                scope: {
+                    name: string
+                }
+            }[]
+        }[]
+    }[]
+}
 
 export const CreateSpans = async (createTraceDto, projectId) => {
-    console.log('createTraceDto', createTraceDto)
+    console.log('createTraceDto', JSON.stringify(createTraceDto))
 
     //await prisma.traceSpan.deleteMany({})
     const resourceAttributes = createTraceDto?.resourceSpans[0]?.resource?.attributes
@@ -85,27 +98,5 @@ export const CreateSpans = async (createTraceDto, projectId) => {
             parentSpanId: a.parentSpanId,
         }
     }))
-    //return true
-    try {
 
-
-        const TraceClickHouseModel = await chOrm.model(traceTableSchema)
-        const spanPromise = sortedSpans?.map(project => {
-            return TraceClickHouseModel.create({
-                ...project as any,
-                parentSpanId: project.parentSpanId || '',
-                attributes: JSON.stringify(project.attributes),
-                events: JSON.stringify(project.events),
-                links: JSON.stringify(project.links),
-                status: JSON.stringify(project.status),
-
-            })
-        })
-        const res = await Promise.all(spanPromise).catch(e => {
-            console.log('spanPromise error', e)
-        })
-        console.log('spanPromise res', res)
-    } catch (error) {
-        console.log('spanPromise  spanPromise', error)
-    }
 }
