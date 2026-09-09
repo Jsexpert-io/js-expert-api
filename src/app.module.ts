@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-import { MongooseModule } from '@nestjs/mongoose';
-
 import { MediaModule } from './media/media.module';
 import { TracesModule } from './server-data/v1/traces/traces.module';
 
@@ -13,12 +11,8 @@ import { ProjectModule } from './project/project.module';
 import { UserModule } from './user/user.module';
 import { MetricModule } from './server-data/v1/metric/metric.module';
 
-const mongoUrl = `mongodb://root:123456@64.227.137.36:27017/?appName=jsexpertDb&directConnection=true`;
 @Module({
   imports: [
-    MongooseModule.forRoot(mongoUrl, {
-      dbName: 'jsexpertDb',
-    }),
     UserModule,
     ProjectModule,
     AuthenticationModule,

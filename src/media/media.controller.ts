@@ -2,7 +2,7 @@ import { Controller, Post, Req, Res } from '@nestjs/common';
 
 import { createHash } from 'crypto';
 import * as multer from 'multer';
-import * as sharp from 'sharp';
+import sharp from 'sharp';
 
 import axios from 'axios';
 import { removeImages, s3 } from '../Utils/ImageService';
@@ -69,9 +69,7 @@ export class MediaController {
     }
 
     try {
-      const sharpImage = await sharp(file.buffer, {
-        failOnError: false,
-      });
+      const sharpImage = sharp(file.buffer);
 
       const orignalBuffer = await sharpImage
         .webp({
